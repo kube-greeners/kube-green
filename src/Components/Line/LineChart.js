@@ -18,7 +18,19 @@ const LineChart = ({data,xField,yField}) => {
         padding:100,
         xField,
         yField,
-        xAxis: { tickCount: 10 },
+        xAxis: {
+            tickCount: 10,
+            title: {
+                text: xField,
+                style: { fontSize: 16 },
+            },
+        },
+        yAxis: {
+            title: {
+                text: yField,
+                style: { fontSize: 16 },
+            },
+        },
         slider: {
             start: 0.9,
             end: 1,
