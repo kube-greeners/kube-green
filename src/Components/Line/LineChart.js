@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Line } from '@ant-design/charts';
-import data from '../../Mockdata/c02emission.json'
+import React from 'react';
+import { Line } from '@ant-design/charts'; 
 
 
 /**
