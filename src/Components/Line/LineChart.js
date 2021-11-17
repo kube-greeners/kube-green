@@ -3,14 +3,25 @@ import { Line } from '@ant-design/charts';
 
 
 /**
- * @param {Array} data - The data to show
- * @param {string} xField - Name of the x axis values
- * @param {string} yField - Name of the y axis values
+ * @param {Array} data - The data to show. Must be an array of objects like
+ * @example 
+ * const data = [
+ *      {
+ *          valueOne:"test" //Y-axis
+ *          valueOne:20 //X-axis
+ *      },
+ *      {
+ *          valueOne:"test2" 
+ *          valueOne:30 
+ *      }
+ * ]
  */
-const LineChart = ({data,xField,yField}) => {
+const LineChart = ({data}) => {
 
+    
+    const [xField,yField] = Object.keys(data[0])
 
-   
+    
     const config = {
         data: data,
         xField,
