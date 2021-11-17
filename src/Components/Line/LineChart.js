@@ -14,8 +14,6 @@ const LineChart = ({data,xField,yField}) => {
    
     const config = {
         data: data,
-        padding: 'auto',
-        padding:100,
         xField,
         yField,
         xAxis: {
