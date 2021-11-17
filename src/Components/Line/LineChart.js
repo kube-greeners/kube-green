@@ -34,6 +34,12 @@ const LineChart = ({data,xField,yField}) => {
         slider: {
             start: 0.9,
             end: 1,
+            trendCfg: {
+                lineStyle: {
+                    opacity:.1,
+                    stroke:'black'
+                }
+            }
         },
     };
     return <Line {...config} />;
