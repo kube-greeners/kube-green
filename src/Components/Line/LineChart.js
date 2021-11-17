@@ -7,12 +7,12 @@ import { Line } from '@ant-design/charts';
  * @example 
  * const data = [
  *      {
- *          valueOne:"test" //Y-axis
- *          valueOne:20 //X-axis
+ *          valueOne:"test" //X-axis
+ *          valueTwo:20 //Y-axis
  *      },
  *      {
  *          valueOne:"test2" 
- *          valueOne:30 
+ *          valueTwo:30 
  *      }
  * ]
  */
