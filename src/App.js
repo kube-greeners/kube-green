@@ -1,22 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
-import { Layout } from 'antd';
+import logo from "./logo.svg";
+import "./App.css";
+import { Layout } from "antd";
+import ReduxExample from "./components/ReduxExample";
 
-const { Header, Footer, Sider, Content, Button } = Layout;
+const { Header, Footer, Sider, Content } = Layout;
 
 function App() {
   return (
     <>
-
-    <Layout>
-      <Sider>Sider</Sider>
+      <ReduxExample />
       <Layout>
-        <Header>Header</Header>
-        <Content>Content</Content>
-        <Footer>Footer</Footer>
+        <Sider>Sider</Sider>
+        <Layout>
+          <Header>Header</Header>
+          <Content>Content</Content>
+          <Footer>Footer</Footer>
+        </Layout>
       </Layout>
-    </Layout>
-  </>
+    </>
   );
 }
 
