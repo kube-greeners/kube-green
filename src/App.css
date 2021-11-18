@@ -1,1 +1,9 @@
 @import "~antd/dist/antd.css";
+
+.content {
+  margin-bottom: 20px;
+}
+
+.spacing {
+  padding: 20px;
+}
