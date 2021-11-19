@@ -8,6 +8,10 @@ body {
   background: #ececec;
 }
 
+.ant-card {
+  border-radius: 8px;
+}
+
 .content {
   margin-bottom: 20px;
 }
