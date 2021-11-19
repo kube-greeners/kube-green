@@ -1,14 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
+import rootReducer from "./redux/rootreducer";
 import reportWebVitals from "./reportWebVitals";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import rootReducer from "./redux/rootreducer";
+import { devToolsEnhancer } from 'redux-devtools-extension';
+import "./index.css";
 
 //Creating our store. createStore passes inn our reducer
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, devToolsEnhancer());
 
 ReactDOM.render(
   <Provider store={store}>
