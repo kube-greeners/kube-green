@@ -16,13 +16,13 @@ function App() {
         <Col span={16} style={{height:'100%'}}>
           <Card title="Line chart"><LineChart data = {data} /> </Card>
         </Col>
-        <Col span={8}>
-          <Row gutter={[0,24]}>
-            <Col flex="0 0 100%"><Card title="Saved Emission">test</Card></Col>
-            <Col flex="0 0 100%"><Card title="CPU Usage and Allocation">test</Card></Col>
-            <Col flex="0 0 100%"><Card title="Memory Usage  and Allocation">test</Card></Col>
-            <Col flex="0 0 100%"><Card title="N Active Pod">test</Card></Col>
-          </Row>
+        <Col span={8} className="flexcolumn">
+            
+            <Card style={{flex:'1'}} title="Saved Emission">test</Card>
+            <Card style={{flex:'1'}} title="CPU Usage and Allocation">test</Card>
+            <Card style={{flex:'1'}} title="Memory Usage  and Allocation">test</Card>
+            <Card style={{flex:'1'}} title="N Active Pod">test</Card>
+            
         </Col>
       </Row>
     </div>
