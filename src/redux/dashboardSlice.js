@@ -1,4 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const fetchCO2EmissionData = createAsyncThunk('dashboard/fetchco2emissions', async () => {
+   //TODO Fetch 
+})
 
 export const dashboardSlice = createSlice({
   name: 'dashboard',
