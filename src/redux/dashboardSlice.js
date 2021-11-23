@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchCO2EmissionData = createAsyncThunk('dashboard/fetchco2emissions', async () => {
-   //TODO Fetch 
+   return await fetch(`${process.env.REACT_APP_API_BASE_URL}/cpu?namespace=production&interval=30m&step=10s`)
+   .then(res => res.json()) 
 })
 
 export const dashboardSlice = createSlice({
