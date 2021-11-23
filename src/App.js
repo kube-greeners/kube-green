@@ -2,9 +2,25 @@ import './App.css';
 import { Col, Row, Card } from 'antd'
 import data from './Mockdata/c02emission.json';
 import LineChart from './Components/Line/LineChart';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchCO2EmissionData } from './redux/dashboardSlice';
 
 function App() {
 
+  const dispatch = useDispatch();
+  const loadingStatus = useSelector(state => state.dashboard.status);
+
+  useEffect(() => {
+    const namespace = "production"
+    const interval = "30m"
+    const step = "10s"
+    
+    //Make sure we only fetch the data once
+    if(loadingStatus === 'idle') {
+      dispatch(fetchCO2EmissionData({namespace,interval,step}))
+    }
+  }, [dispatch,loadingStatus])
   data.sort((a, b) => {
     return new Date(a.Date) - new Date(b.Date)
     }) 
