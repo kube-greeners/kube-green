@@ -9,12 +9,26 @@ export const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: {
     exampleValue: "initialExampleValue",
+    status:'idle',
+
   },
   reducers: {
     changeExampleValue: (state, action) => {
       state.exampleValue = action.payload
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchCO2EmissionData.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchCO2EmissionData.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+      })
+      .addCase(fetchCO2EmissionData.rejected, (state, action) => {
+        state.status = 'failed'
+      })
+  }
 })
 
 // Action creators are generated for each case reducer function
