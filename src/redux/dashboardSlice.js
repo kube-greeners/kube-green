@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchCO2EmissionData = createAsyncThunk('dashboard/fetchco2emissions', async ({namespace,interval,step}) => {
+  //This url will fetch the CPU usage for each pod. It should be changed when KG-121 is done to the correct URL 
    return await fetch(`${process.env.REACT_APP_API_BASE_URL}/cpu?namespace=${namespace}&interval=${interval}}&step=${step}`)
    .then(res => res.json()) 
 })
@@ -8,14 +9,11 @@ export const fetchCO2EmissionData = createAsyncThunk('dashboard/fetchco2emission
 export const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: {
-    exampleValue: "initialExampleValue",
     status:'idle',
-
-  },
-  reducers: {
-    changeExampleValue: (state, action) => {
-      state.exampleValue = action.payload
-    },
+    Co2DiagramData: [],
+    CpuStats: [],
+    MemoryStats: [],
+    ActivePodsStats: [], 
   },
   extraReducers(builder) {
     builder
@@ -23,15 +21,14 @@ export const dashboardSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchCO2EmissionData.fulfilled, (state, action) => {
-        state.status = 'succeeded'
+        state.status = 'succeeded';
+        //We are just using the CPU data from first pod in the array. When when KG-121 it should just be state.Co2DiagramData = action.payload.values 
+        state.Co2DiagramData = action.payload[0].values;
       })
       .addCase(fetchCO2EmissionData.rejected, (state, action) => {
         state.status = 'failed'
       })
   }
 })
-
-// Action creators are generated for each case reducer function
-export const { changeExampleValue } = dashboardSlice.actions
 
 export default dashboardSlice.reducer
