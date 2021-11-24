@@ -8,6 +8,10 @@ body {
   background: #ececec;
 }
 
+#root {
+  margin:auto;
+}
+
 .flexcolumn {
   display: flex;
   flex-direction: column;
