@@ -1,20 +1,19 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import { fetchCO2EmissionData } from '../Utilities/dataFetching'
 
-export const fetchCO2EmissionData = createAsyncThunk('dashboard/fetchco2emissions', async ({namespace,interval,step}) => {
-  //This url will fetch the CPU usage for each pod. It should be changed when KG-121 is done to the correct URL 
-   return await fetch(`${process.env.REACT_APP_API_BASE_URL}/cpu?namespace=${namespace}&interval=${interval}}&step=${step}`)
-   .then(res => res.json()) 
-})
+
+const initialState = {
+  status:'idle',
+  Co2DiagramData: [],
+  CpuStats: [],
+  MemoryStats: [],
+  ActivePodsStats: []
+}
 
 export const dashboardSlice = createSlice({
   name: 'dashboard',
-  initialState: {
-    status:'idle',
-    Co2DiagramData: [],
-    CpuStats: [],
-    MemoryStats: [],
-    ActivePodsStats: [], 
-  },
+  initialState,
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchCO2EmissionData.pending, (state, action) => {
