@@ -7,7 +7,7 @@ import LineChart from './Components/Line/LineChart';
 
 
 function App() {
-  const loadingStatus = useSelector(state => state.dashboard.status);
+  const loadingStatus = useSelector(state => state.dashboard.co2.status);
 
   return (
     <div className="container">

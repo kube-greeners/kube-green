@@ -3,11 +3,23 @@ import { fetchCO2EmissionData } from '../Utilities/dataFetching'
 
 
 const initialState = {
-  status:'idle',
-  Co2DiagramData: [],
-  CpuStats: [],
-  MemoryStats: [],
-  ActivePodsStats: []
+  co2: {
+    status:'idle',
+    data: [],
+  },
+  cpu: {
+    status:'idle',
+    allocated: [],
+    usage: []
+  },
+  memory:{
+    status:'idle',
+    data: [],
+  },
+  pods: {
+    status:'idle',
+    data: [],
+  }
 }
 
 export const dashboardSlice = createSlice({
@@ -17,15 +29,15 @@ export const dashboardSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchCO2EmissionData.pending, (state, action) => {
-        state.status = 'loading'
+        state.co2.status = 'loading'
       })
       .addCase(fetchCO2EmissionData.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.co2.status = 'succeeded';
         //We are just using the CPU data from first pod in the array. When when KG-121 it should just be state.Co2DiagramData = action.payload.values 
-        state.Co2DiagramData = action.payload[0].values;
+        state.co2.data = action.payload[0].values;
       })
       .addCase(fetchCO2EmissionData.rejected, (state, action) => {
-        state.status = 'failed'
+        state.co2.status = 'failed'
       })
   }
 })
