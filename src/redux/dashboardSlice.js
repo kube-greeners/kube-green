@@ -1,18 +1,45 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { fetchCO2EmissionData } from '../Utilities/dataFetching'
+
+
+const initialState = {
+  co2: {
+    status:'idle',
+    data: [],
+  },
+  cpu: {
+    status:'idle',
+    allocated: [],
+    usage: []
+  },
+  memory:{
+    status:'idle',
+    data: [],
+  },
+  pods: {
+    status:'idle',
+    data: [],
+  }
+}
 
 export const dashboardSlice = createSlice({
   name: 'dashboard',
-  initialState: {
-    exampleValue: "initialExampleValue",
-  },
-  reducers: {
-    changeExampleValue: (state, action) => {
-      state.exampleValue = action.payload
-    },
-  },
+  initialState,
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchCO2EmissionData.pending, (state, action) => {
+        state.co2.status = 'loading'
+      })
+      .addCase(fetchCO2EmissionData.fulfilled, (state, action) => {
+        state.co2.status = 'succeeded';
+        //We are just using the CPU data from first pod in the array. When when KG-121 it should just be state.Co2DiagramData = action.payload.values 
+        state.co2.data = action.payload[0].values;
+      })
+      .addCase(fetchCO2EmissionData.rejected, (state, action) => {
+        state.co2.status = 'failed'
+      })
+  }
 })
-
-// Action creators are generated for each case reducer function
-export const { changeExampleValue } = dashboardSlice.actions
 
 export default dashboardSlice.reducer
