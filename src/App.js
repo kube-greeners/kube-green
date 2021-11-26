@@ -1,13 +1,14 @@
-import './App.css';
 import { Col, Row, Card } from 'antd'
-import CO2Emission from './Components/CO2Emission';
+import Co2Emission from './Components/Co2Emission'
+import './App.css';
 
 function App() {
+
   return (
     <div className="container">
       <Row gutter={[24, 24]}>
         <Col span={16}>
-          <Card title="Line chart"><CO2Emission/> </Card>
+          <Card title="Line chart"><Co2Emission/> </Card>
         </Col>
         <Col span={8} className="flexcolumn">
             <Card style={{flex:'1'}} title="Saved Emission">test</Card>
