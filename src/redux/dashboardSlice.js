@@ -15,6 +15,10 @@ const initialState = {
   memory:{
     status:'idle',
     data: [],
+    allocated:[],
+    usage:[],
+    currentAllocated:0,
+    currentUsage:0
   },
   pods: {
     status:'idle',
