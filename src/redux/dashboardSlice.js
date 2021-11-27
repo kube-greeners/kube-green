@@ -58,6 +58,8 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchMemory.pending, (state, action) => {
         state.memory.status = 'loading'
+        state.memory.currentValue = action.payload[0].values.pop().pop();
+        state.memory.usage = action.payload[0].values;
       })
       .addCase(fetchMemory.fulfilled, (state, action) => {
         state.memory.status = 'succeeded';
