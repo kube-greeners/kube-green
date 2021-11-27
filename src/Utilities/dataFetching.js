@@ -11,3 +11,8 @@ export const fetchActivePods = createAsyncThunk('dashboard/fetchpods', async ({n
      return await fetch(`${process.env.REACT_APP_API_BASE_URL}/pods?namespace=${namespace}&interval=${interval}}&step=${step}`)
      .then(res => res.json()) 
 })
+
+export const fetchMemory = createAsyncThunk('dashboard/memory', async ({namespace,interval,step}) => {
+     return await fetch(`${process.env.REACT_APP_API_BASE_URL}/memory?namespace=${namespace}&interval=${interval}}&step=${step}`)
+     .then(res => res.json()) 
+})
