@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchCO2EmissionData,fetchActivePods } from '../Utilities/dataFetching'
+import { fetchCO2EmissionData,fetchActivePods,fetchMemory } from '../Utilities/dataFetching'
 
 
 const initialState = {
@@ -55,6 +55,17 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchActivePods.rejected, (state, action) => {
         state.pods.status = 'failed'
+      })
+      .addCase(fetchMemory.pending, (state, action) => {
+        state.memory.status = 'loading'
+      })
+      .addCase(fetchMemory.fulfilled, (state, action) => {
+        state.memory.status = 'succeeded';
+
+        
+      })
+      .addCase(fetchMemory.rejected, (state, action) => {
+        state.memory.status = 'failed'
       })
   }
 })
