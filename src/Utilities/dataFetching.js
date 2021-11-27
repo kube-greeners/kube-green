@@ -12,7 +12,7 @@ export const fetchActivePods = createAsyncThunk('dashboard/fetchpods', async ({n
      .then(res => res.json()) 
 })
 
-export const fetchCPU = createAsyncThunk('dashboard/fetchpods', async ({namespace,interval,step}) => {
+export const fetchCPU = createAsyncThunk('dashboard/cpu', async ({namespace,interval,step}) => {
      return await fetch(`${process.env.REACT_APP_API_BASE_URL}/cpu?namespace=${namespace}&interval=${interval}}&step=${step}`)
      .then(res => res.json()) 
 })
