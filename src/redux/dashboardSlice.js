@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchCO2EmissionData,fetchActivePods } from '../Utilities/dataFetching'
+import { fetchCO2EmissionData,fetchActivePods,fetchCPU } from '../Utilities/dataFetching'
 
 
 const initialState = {
@@ -9,8 +9,10 @@ const initialState = {
   },
   cpu: {
     status:'idle',
-    allocated: [],
-    usage: []
+    allocated:[],
+    usage:[],
+    currentAllocated:0,
+    currentUsage:0
   },
   memory:{
     status:'idle',
@@ -51,6 +53,18 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchActivePods.rejected, (state, action) => {
         state.pods.status = 'failed'
+      })
+      .addCase(fetchCPU.pending, (state, action) => {
+        state.cpu.status = 'loading'
+      })
+      .addCase(fetchCPU.fulfilled, (state, action) => {
+        state.cpu.status = 'succeeded';
+        state.cpu.currentUsage = action.payload[0].values.pop().pop();
+        state.cpu.usage = action.payload[0].values;
+        
+      })
+      .addCase(fetchCPU.rejected, (state, action) => {
+        state.cpu.status = 'failed'
       })
   }
 })
