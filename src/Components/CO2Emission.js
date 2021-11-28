@@ -4,8 +4,8 @@ import data from '../Mockdata/c02emission.json';
 
 
 function Co2Emission() {
-  const { CO2Emission } = useSelector((state) => state.dashboard.co2.data);
-
+  const { Co2Emission } = useSelector((state) => state.dashboard.co2.data);
+  
   const loadingStatus = useSelector(state => state.dashboard.co2.status);
 
   return <LineChart data = {data} loadingStatus ={loadingStatus} />;

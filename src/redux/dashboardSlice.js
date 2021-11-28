@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchCO2EmissionData } from "../Utilities/dataFetching";
+import { createSlice } from '@reduxjs/toolkit'
+import { fetchCO2EmissionData,fetchActivePods } from '../Utilities/dataFetching'
+
 
 const initialState = {
   co2: {
@@ -31,8 +32,9 @@ const initialState = {
   pods: {
     status: "idle",
     data: [],
-  },
-};
+    currentValue:0
+  }
+}
 
 export const dashboardSlice = createSlice({
   name: "dashboard",
@@ -49,9 +51,21 @@ export const dashboardSlice = createSlice({
         state.co2.data = action.payload[0].values;
       })
       .addCase(fetchCO2EmissionData.rejected, (state, action) => {
-        state.co2.status = "failed";
-      });
-  },
-});
+        state.co2.status = 'failed'
+      })
+      .addCase(fetchActivePods.pending, (state, action) => {
+        state.pods.status = 'loading'
+      })
+      .addCase(fetchActivePods.fulfilled, (state, action) => {
+        state.pods.status = 'succeeded';
+        state.pods.currentValue = action.payload[0].values.pop().pop();
+        state.pods.data = action.payload[0].values;
+        
+      })
+      .addCase(fetchActivePods.rejected, (state, action) => {
+        state.pods.status = 'failed'
+      })
+  }
+})
 
 export default dashboardSlice.reducer;

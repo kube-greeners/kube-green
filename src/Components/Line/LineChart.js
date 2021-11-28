@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Line } from '@ant-design/charts'; 
 
 import { fetchCO2EmissionData } from '../../Utilities/dataFetching';
@@ -20,6 +20,7 @@ import { fetchCO2EmissionData } from '../../Utilities/dataFetching';
  * ]
  */
 const LineChart = ({data, loadingStatus}) => {
+    const { Co2Emission } = useSelector((state) => state.dashboard.co2.data);
 
     const dispatch = useDispatch();
 
@@ -33,6 +34,7 @@ const LineChart = ({data, loadingStatus}) => {
       if(loadingStatus === 'idle') {
         dispatch(fetchCO2EmissionData({namespace,interval,step}))
       }
+
     }, [dispatch,loadingStatus])
     
     const [xField,yField] = Object.keys(data[0])
