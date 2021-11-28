@@ -59,8 +59,8 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchCPU.fulfilled, (state, action) => {
         state.cpu.status = 'succeeded';
-        state.cpu.currentValue = action.payload[0].values.pop().pop();
-        state.cpu.data = action.payload[0].values;
+        state.cpu.currentUsage = action.payload[0].values.pop().pop();
+        state.cpu.usage = action.payload[0].values;
         
       })
       .addCase(fetchCPU.rejected, (state, action) => {
