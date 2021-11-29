@@ -44,7 +44,7 @@ export const dashboardSlice = createSlice({
         state.co2.status = "succeeded";
         //We are just using the CPU data from first pod in the array. When when KG-121 it should just be state.Co2DiagramData = action.payload.values
         console.log(action.payload[0]);
-        const transformedData = action.payload[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of C02": parseFloat(d[1])}));
+        const transformedData = action.payload[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of CO2": parseFloat(d[1])}));
         state.co2.data = transformedData;
       })
       .addCase(fetchCO2EmissionData.rejected, (state, action) => {
@@ -56,7 +56,7 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchActivePods.fulfilled, (state, action) => {
         state.pods.status = "succeeded";
-        state.pods.currentValue = action.payload[0].values.pop().pop();
+        state.pods.currentValue = parseFloat(action.payload[0].values.pop().pop());
         state.pods.data = action.payload[0].values;
       })
       .addCase(fetchActivePods.rejected, (state, action) => {
@@ -68,7 +68,7 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchCpuUsage.fulfilled, (state, action) => {
         state.cpu.statusUsage = 'succeeded';
-        state.cpu.currentUsage = action.payload[0].values.pop().pop();
+        state.cpu.currentUsage = parseFloat(action.payload[0].values.pop().pop());
         state.cpu.usage = action.payload[0].values;
       })
       .addCase(fetchCpuUsage.rejected, (state, action) => {
@@ -81,7 +81,7 @@ export const dashboardSlice = createSlice({
       .addCase(fetchCpuAllocation.fulfilled, (state, action) => {
         state.cpu.statusAllocation = 'succeeded';
         if(action.payload.values.length !== 0){
-          state.cpu.currentAllocated = action.payload[0].values.pop().pop();
+          state.cpu.currentAllocated = parseFloat(action.payload[0].values.pop().pop());
           state.cpu.allocated = action.payload[0].values;
         }
       })
@@ -94,7 +94,7 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchMemoryUsage.fulfilled, (state, action) => {
         state.memory.statusUsage = 'succeeded';
-        state.memory.currentUsage = action.payload[0].values.pop().pop();
+        state.memory.currentUsage = parseFloat(action.payload[0].values.pop().pop());
         state.memory.usage = action.payload[0].values;
       })
       .addCase(fetchMemoryUsage.rejected, (state, action) => {
@@ -107,7 +107,7 @@ export const dashboardSlice = createSlice({
       .addCase(fetchMemoryAllocation.fulfilled, (state, action) => {
         state.memory.statusAllocation = 'succeeded';
         if(action.payload[0].values.length !== 0){
-          state.memory.currentAllocated = action.payload[0].values.pop().pop();
+          state.memory.currentAllocated = parseFloat(action.payload[0].values.pop().pop());
           state.memory.allocated = action.payload[0].values;
         }
       })
