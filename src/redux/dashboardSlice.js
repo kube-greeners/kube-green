@@ -44,7 +44,7 @@ export const dashboardSlice = createSlice({
         state.co2.status = "succeeded";
         //We are just using the CPU data from first pod in the array. When when KG-121 it should just be state.Co2DiagramData = action.payload.values
         console.log(action.payload[0]);
-        const transformedData = action.payload[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of C02": parseFloat(d[1])}));
+        const transformedData = action.payload[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of CO2": parseFloat(d[1])}));
         state.co2.data = transformedData;
       })
       .addCase(fetchCO2EmissionData.rejected, (state, action) => {
