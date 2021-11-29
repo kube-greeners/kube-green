@@ -63,9 +63,21 @@ function App() {
         </Col>
         <Col span={8} className="flexcolumn">
           <Card style={statContainerStyle} title="Saved Emission"></Card>
-          <Card style={statContainerStyle} title="CPU Usage and Allocation">{cpu_usage.toFixed(2)} core / {cpu_allocation.toFixed(2)} core </Card>
-          <Card style={statContainerStyle} title="Memory Usage  and Allocation">{memory_usage.toFixed(2)} GB / {memory_allocation.toFixed(2) } GB </Card>
-          <Card style={statContainerStyle} title="N Active Pod">{active_pods}</Card>
+          <Card style={statContainerStyle} title="CPU Usage and Allocation">
+            {(statusCpuUsage ==='succeeded' && statusCpuAllocation === `succeeded`) ? 
+            `${cpu_usage.toFixed(2)} core / ${cpu_allocation.toFixed(2)} core` : 
+            `Loading...`}
+          </Card>
+          <Card style={statContainerStyle} title="Memory Usage  and Allocation">
+            {(statusMemoryAllocation ==='succeeded' && statusMemoryUsage === 'succeeded') ? 
+            `${memory_usage.toFixed(2)} GB / ${memory_allocation.toFixed(2)} GB` : 
+            'Loading...'}
+          </Card>
+          <Card style={statContainerStyle} title="N Active Pod">
+            {(statusPods === 'succeeded') ? 
+            active_pods : 
+            'Loading...'}
+          </Card>
         </Col>
       </Row>
     </div>
