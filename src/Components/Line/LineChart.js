@@ -1,9 +1,6 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
 import { Line } from '@ant-design/charts'; 
 
-import { fetchCO2EmissionData } from '../../Utilities/dataFetching';
 
 /**
  * @param {Array} data - The data to show. Must be an array of objects like
@@ -19,9 +16,7 @@ import { fetchCO2EmissionData } from '../../Utilities/dataFetching';
  *      }
  * ]
  */
-const LineChart = ({data, loadingStatus}) => {
-
-
+const LineChart = ({data}) => {
     
     const [xField,yField] = Object.keys(data[0])
 
