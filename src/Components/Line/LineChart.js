@@ -39,8 +39,8 @@ const LineChart = ({data}) => {
             },
         },
         slider: {
-            start: 0.9,
-            end: 1,
+            start: 0,
+            end: 0.99,
             trendCfg: {
                 lineStyle: {
                     opacity:.1,
