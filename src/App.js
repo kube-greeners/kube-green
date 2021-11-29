@@ -1,16 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react';
 import { Col, Row, Card } from 'antd'
-
+import Co2Emission from './Components/CO2Emission'
 import './App.css';
-import data from './Mockdata/c02emission.json';
-import LineChart from './Components/Line/LineChart';
-import { fetchCO2EmissionData, fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from './Utilities/dataFetching';
+import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from './Utilities/dataFetching';
 
 
 function App() {
 
-  const statusCo2 = useSelector(state => state.dashboard.co2.status);
   const statusCpuUsage = useSelector(state => state.dashboard.cpu.statusUsage);
   const statusCpuAllocation = useSelector(state => state.dashboard.cpu.statusAllocation);
   const statusMemoryUsage = useSelector(state => state.dashboard.memory.statusUsage);
@@ -29,14 +26,11 @@ function App() {
 
     useEffect(() => {
       const namespace = "production"
-      const interval = "30m"
-      const step = "10s"
+      const interval = "10d"
+      const step = "1h"
       
       //Make sure we only fetch the data once. 
       //TODO: check edge cases for failed when we have the correct endpoint
-      if(statusCo2 === 'idle') {
-        dispatch(fetchCO2EmissionData({namespace,interval,step}))
-      }
       if(statusCpuUsage === 'idle') {
         dispatch(fetchCpuUsage({namespace,interval,step}))
       }
@@ -53,13 +47,13 @@ function App() {
         dispatch(fetchMemoryAllocation({namespace,interval,step}))
       }
 
-    }, [dispatch,statusCo2, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation])
+    }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation])
  
   return (
     <div className="container">
       <Row gutter={[24, 24]}>
         <Col span={16}>
-          <Card title="Line chart"><LineChart data = {data}/> </Card>
+          <Card  style={{height:'100%', position:'relative'}} title="Estimated Co2 emission"><Co2Emission/> </Card>
         </Col>
         <Col span={8} className="flexcolumn">  
           <Card style={{flex:'1'}} title="Saved Emission"></Card>

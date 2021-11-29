@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchCO2EmissionData,fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from '../Utilities/dataFetching'
+import { convertDate } from '../Utilities/utilityFunctions'
 
 const initialState = {
   co2: {
@@ -42,7 +43,9 @@ export const dashboardSlice = createSlice({
       .addCase(fetchCO2EmissionData.fulfilled, (state, action) => {
         state.co2.status = "succeeded";
         //We are just using the CPU data from first pod in the array. When when KG-121 it should just be state.Co2DiagramData = action.payload.values
-        state.co2.data = action.payload[0].values;
+        console.log(action.payload[0]);
+        const transformedData = action.payload[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of C02": parseFloat(d[1])}));
+        state.co2.data = transformedData;
       })
       .addCase(fetchCO2EmissionData.rejected, (state, action) => {
         state.co2.status = "failed";
