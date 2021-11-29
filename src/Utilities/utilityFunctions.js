@@ -1,0 +1,1 @@
+export const convertDate = (timeStamp) => `${new Date(timeStamp).toLocaleDateString().replace(/\./g,"/")} ${new Date(timeStamp).toLocaleTimeString().replace(/\./g,":")}`;
