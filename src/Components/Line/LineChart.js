@@ -1,9 +1,6 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux'
 import { Line } from '@ant-design/charts'; 
 
-import { fetchCO2EmissionData } from '../../Utilities/dataFetching';
 
 /**
  * @param {Array} data - The data to show. Must be an array of objects like
@@ -19,21 +16,7 @@ import { fetchCO2EmissionData } from '../../Utilities/dataFetching';
  *      }
  * ]
  */
-const LineChart = ({data, loadingStatus}) => {
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-      const namespace = "production"
-      const interval = "30m"
-      const step = "10s"
-      
-      //Make sure we only fetch the data once. 
-      //TODO: check edge cases for failed when we have the correct endpoint
-      if(loadingStatus === 'idle') {
-        dispatch(fetchCO2EmissionData({namespace,interval,step}))
-      }
-    }, [dispatch,loadingStatus])
+const LineChart = ({data}) => {
     
     const [xField,yField] = Object.keys(data[0])
 
