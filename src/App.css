@@ -34,6 +34,14 @@ body {
     "lc b3"
     "lc b4";
 }
+
+.layout-grid > * {animation: fadeIn 500ms ease-in-out both;}
+.layout-grid > *:nth-child(1) {animation-delay: 100ms;}
+.layout-grid > *:nth-child(2) {animation-delay: 200ms;}
+.layout-grid > *:nth-child(3) {animation-delay: 300ms;}
+.layout-grid > *:nth-child(4) {animation-delay: 400ms;}
+.layout-grid > *:nth-child(5) {animation-delay: 500ms;}
+
 .container{
   position:relative;
   margin-left:auto;
@@ -92,5 +100,16 @@ body {
   .container {
     width: 1340px;
     max-width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
