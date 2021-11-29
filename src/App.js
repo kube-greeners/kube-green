@@ -70,7 +70,7 @@ function App() {
     <div className="container">
       <Row gutter={[24, 24]}>
         <Col span={16}>
-          <Card style={{ height: '100%', position: 'relative' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
+          <Card style={{ height: '100%' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
         </Col>
         <Col span={8} className="flexcolumn">
           <Card style={statContainerStyle} title="Saved Emission"></Card>
