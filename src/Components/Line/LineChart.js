@@ -20,7 +20,6 @@ import { fetchCO2EmissionData } from '../../Utilities/dataFetching';
  * ]
  */
 const LineChart = ({data, loadingStatus}) => {
-    const { Co2Emission } = useSelector((state) => state.dashboard.co2.data);
 
     const dispatch = useDispatch();
 
