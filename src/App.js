@@ -24,6 +24,12 @@ function App() {
 
   const dispatch = useDispatch();
 
+  const statContainerStyle = {
+    flex: '1', 
+    textAlign: 'center',
+    fontWeight: 'bold'
+  }
+
     useEffect(() => {
       const namespace = "production"
       const interval = "10d"
@@ -55,11 +61,11 @@ function App() {
         <Col span={16}>
           <Card style={{ height: '100%', position: 'relative' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
         </Col>
-        <Col span={8} className="flexcolumn">  
-          <Card style={{flex:'1'}} title="Saved Emission"></Card>
-          <Card style={{flex:'1'}} title="CPU Usage and Allocation">{cpu_usage} / {cpu_allocation} </Card>
-          <Card style={{flex:'1'}} title="Memory Usage  and Allocation">{memory_usage} / {memory_allocation} </Card>
-          <Card style={{flex:'1'}} title="N Active Pod">{active_pods}</Card>  
+        <Col span={8} className="flexcolumn">
+          <Card style={statContainerStyle} title="Saved Emission"></Card>
+          <Card style={statContainerStyle} title="CPU Usage and Allocation">{cpu_usage.toFixed(2)} core / {cpu_allocation.toFixed(2)} core </Card>
+          <Card style={statContainerStyle} title="Memory Usage  and Allocation">{memory_usage.toFixed(2)} GB / {memory_allocation.toFixed(2) } GB </Card>
+          <Card style={statContainerStyle} title="N Active Pod">{active_pods}</Card>
         </Col>
       </Row>
     </div>
