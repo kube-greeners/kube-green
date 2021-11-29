@@ -21,20 +21,7 @@ import { fetchCO2EmissionData } from '../../Utilities/dataFetching';
  */
 const LineChart = ({data, loadingStatus}) => {
 
-    const dispatch = useDispatch();
 
-    useEffect(() => {
-      const namespace = "production"
-      const interval = "5d"
-      const step = "1h"
-      
-      //Make sure we only fetch the data once. 
-      //TODO: check edge cases for failed when we have the correct endpoint
-      if(loadingStatus === 'idle') {
-        dispatch(fetchCO2EmissionData({namespace,interval,step}))
-      }
-
-    }, [dispatch,loadingStatus])
     
     const [xField,yField] = Object.keys(data[0])
 
