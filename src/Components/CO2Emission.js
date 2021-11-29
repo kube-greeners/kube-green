@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import LineChart from "./Line/LineChart";
+import React from 'react';
 // import data from "../Mockdata/c02emission.json"
 
 function Co2Emission() {

@@ -1,5 +1,5 @@
 import { Col, Row, Card } from 'antd'
-import Co2Emission from './Components/Co2Emission'
+import Co2Emission from './Components/CO2Emission'
 import './App.css';
 
 function App() {

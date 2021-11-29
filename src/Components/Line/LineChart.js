@@ -25,8 +25,8 @@ const LineChart = ({data, loadingStatus}) => {
 
     useEffect(() => {
       const namespace = "production"
-      const interval = "30m"
-      const step = "10s"
+      const interval = "5d"
+      const step = "1h"
       
       //Make sure we only fetch the data once. 
       //TODO: check edge cases for failed when we have the correct endpoint
