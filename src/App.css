@@ -22,12 +22,24 @@ body {
   border-radius: 8px;
 }
 
-.container {
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  padding-right: 15px;
-  padding-left: 15px;
+.layout-grid {
+  align-content: center;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap:1rem;
+  grid-template-areas: 
+    "lc b1"
+    "lc b2"
+    "lc b3"
+    "lc b4";
+}
+.container{
+  position:relative;
+  margin-left:auto;
+  margin-right:auto;
+  padding-right:15px;
+  padding-left:15px
 }
 @media (min-width: 476px) {
   .container {
