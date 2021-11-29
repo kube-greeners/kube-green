@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Col, Row, Card } from 'antd'
 import Co2Emission from './Components/CO2Emission'
 import './App.css';
@@ -12,8 +12,14 @@ function App() {
   const statusCpuAllocation = useSelector(state => state.dashboard.cpu.statusAllocation);
   const statusMemoryUsage = useSelector(state => state.dashboard.memory.statusUsage);
   const statusMemoryAllocation = useSelector(state => state.dashboard.memory.statusAllocation);
-
   const statusPods = useSelector(state => state.dashboard.pods.status);
+
+  const fetchingCpuUsageRef = useRef(false)
+  const fetchingCpuAllocationRef = useRef(false)
+  const fetchingMemoryUsageRef = useRef(false)
+  const fetchingMemoryAllocationRef = useRef(false)
+  const fetchingPods = useRef(false)
+
   const active_pods = useSelector(state => state.dashboard.pods.currentValue);
   const cpu_usage = useSelector(state => state.dashboard.cpu.currentUsage);
   const cpu_allocation = useSelector(state => state.dashboard.cpu.currentAllocated);
@@ -30,31 +36,36 @@ function App() {
     fontWeight: 'bold'
   }
 
-    useEffect(() => {
-      const namespace = "production"
-      const interval = "10d"
-      const step = "1h"
-      
-      //Make sure we only fetch the data once. 
-      //TODO: check edge cases for failed when we have the correct endpoint
-      if(statusCpuUsage === 'idle') {
-        dispatch(fetchCpuUsage({namespace,interval,step}))
-      }
-      if(statusCpuAllocation === 'idle') {
-        dispatch(fetchCpuAllocation({namespace,interval,step}))
-      }
-      if(statusPods === 'idle') {
-        dispatch(fetchActivePods({namespace,interval,step}))
-      }
-      if(statusMemoryUsage === 'idle') {
-        dispatch(fetchMemoryUsage({namespace,interval,step}))
-      }
-      if(statusMemoryAllocation === 'idle') {
-        dispatch(fetchMemoryAllocation({namespace,interval,step}))
-      }
+  useEffect(() => {
+    const namespace = "production"
+    const interval = "10d"
+    const step = "1h"
 
-    }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation])
- 
+    //Make sure we only fetch the data once. 
+    //TODO: check edge cases for failed when we have the correct endpoint
+    if (statusCpuUsage === 'idle' && !fetchingCpuUsageRef.current) {
+      dispatch(fetchCpuUsage({ namespace, interval, step }))
+      fetchingCpuUsageRef.current = true;
+    }
+    if (statusCpuAllocation === 'idle' && !fetchingCpuAllocationRef.current) {
+      dispatch(fetchCpuAllocation({ namespace, interval, step }))
+      fetchingCpuAllocationRef.current = true;
+    }
+    if (statusPods === 'idle' && !fetchingPods.current) {
+      dispatch(fetchActivePods({ namespace, interval, step }))
+      fetchingPods.current = true;
+    }
+    if (statusMemoryUsage === 'idle' && !fetchMemoryUsage.current) {
+      dispatch(fetchMemoryUsage({ namespace, interval, step }))
+      fetchMemoryUsage.current = true;
+    }
+    if (statusMemoryAllocation === 'idle' && !fetchingMemoryAllocationRef.current) {
+      dispatch(fetchMemoryAllocation({ namespace, interval, step }))
+      fetchingMemoryAllocationRef.current = true;
+    }
+
+  }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation])
+
   return (
     <div className="container">
       <Row gutter={[24, 24]}>
