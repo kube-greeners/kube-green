@@ -25,6 +25,7 @@ const LineChart = ({data}) => {
         xField,
         yField,
         height:500,
+        appendPadding:20,
         xAxis: {
             tickCount: 10,
             title: {
