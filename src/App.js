@@ -16,7 +16,7 @@ function App() {
 
   const fetchingCpuUsageRef = useRef(false)
   const fetchingCpuAllocationRef = useRef(false)
-  const fetchingMemoryUsageRef = useRef(false)
+  // const fetchingMemoryUsageRef = useRef(false)
   const fetchingMemoryAllocationRef = useRef(false)
   const fetchingPods = useRef(false)
 
