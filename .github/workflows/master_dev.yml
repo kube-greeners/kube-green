@@ -26,6 +26,11 @@ jobs:
           name: build
           path: |
             build
+
+      - name: Delete unnecesary stuff
+        run: |
+          find build -name "*.map" -delete
+
       - name: Compress the artifact
         run: |
           tar -czf build.tar.gz build
