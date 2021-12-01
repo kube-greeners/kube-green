@@ -20,16 +20,15 @@ jobs:
           npm run build
         env:
           REACT_APP_API_BASE_URL: "/"
+          GENERATE_SOURCEMAP: "false"
+          PUBLIC_URL: "/${{ github.ref_name }}/"
+
       - name: Upload artifact to Github
         uses: actions/upload-artifact@v2
         with:
           name: build
           path: |
             build
-
-      - name: Delete unnecesary stuff
-        run: |
-          find build -name "*.map" -delete
 
       - name: Compress the artifact
         run: |
@@ -45,7 +44,7 @@ jobs:
       - name: Upload build to K8S
         run: |
           gcloud container clusters get-credentials test-cluster --zone=europe-west1-b --project=kube-greeners
-          kubectl -n frontend configmap $name --from-file=./build.tar.gz
+          kubectl create configmap $name --from-file=./build.tar.gz -n frontend
         env:
           name: ${{ github.ref_name }}
 
