@@ -1,4 +1,9 @@
 .navbar {
+    background: linear-gradient(
+        to bottom,
+        #fff,
+        #F0F2F5
+    );
 }
 .logo {
     padding: 1.5rem;
