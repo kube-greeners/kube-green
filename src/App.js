@@ -4,6 +4,7 @@ import { Col, Row, Card } from 'antd'
 import Co2Emission from './Components/CO2Emission'
 import './App.css';
 import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from './Utilities/dataFetching';
+import NavBar from './Components/NavBar/NavBar';
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
 
   return (
     <>
+    <NavBar/>
     <div className="container">
       <div className="layout-grid">
         <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
