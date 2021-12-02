@@ -1,9 +1,10 @@
+import StatComponent from './Components/StatComponent';
+import Co2Emission from './Components/CO2Emission'
+import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from './Utilities/dataFetching';
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useRef } from 'react';
-import { Col, Row, Card } from 'antd'
-import Co2Emission from './Components/CO2Emission'
+import { Card } from 'antd'
 import './App.css';
-import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from './Utilities/dataFetching';
 
 
 function App() {
@@ -26,15 +27,7 @@ function App() {
   const memory_usage = useSelector(state => state.dashboard.memory.currentUsage);
   const memory_allocation = useSelector(state => state.dashboard.memory.currentAllocated);
 
-
-
   const dispatch = useDispatch();
-
-  const statContainerStyle = {
-    flex: '1', 
-    textAlign: 'center',
-    fontWeight: 'bold'
-  }
 
   useEffect(() => {
     const namespace = "production"
@@ -55,7 +48,7 @@ function App() {
       dispatch(fetchActivePods({ namespace, interval, step }))
       fetchingPods.current = true;
     }
-    if (statusMemoryUsage === 'idle' && !fetchMemoryUsage.current) {
+    if (statusMemoryUsage === 'idle' && !fetchingMemoryUsageRef.current) {
       dispatch(fetchMemoryUsage({ namespace, interval, step }))
       fetchMemoryUsage.current = true;
     }
@@ -69,23 +62,11 @@ function App() {
   return (
     <div className="container">
       <div className="layout-grid">
-        <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
-        <Card style={{...statContainerStyle,gridArea:'b1'}} title="Saved Emission">Loading...</Card>
-        <Card style={{...statContainerStyle,gridArea:'b2'}} title="CPU Usage and Allocation">
-          {(statusCpuUsage === 'succeeded' && statusCpuAllocation === `succeeded`) ?
-            `${cpu_usage.toFixed(2)} core / ${cpu_allocation.toFixed(2)} core` :
-            `Loading...`}
-        </Card>
-        <Card style={{...statContainerStyle,gridArea:'b3'}} title="Memory Usage  and Allocation">
-          {(statusMemoryAllocation === 'succeeded' && statusMemoryUsage === 'succeeded') ?
-            `${memory_usage.toFixed(2)} GB / ${memory_allocation.toFixed(2)} GB` :
-            'Loading...'}
-        </Card>
-        <Card style={{...statContainerStyle,gridArea:'b4'}} title="N Active Pod">
-          {(statusPods === 'succeeded') ?
-            active_pods :
-            'Loading...'}
-        </Card>
+        <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission/></Card>
+        <StatComponent gridArea="b1" title="Saved Emission" loaded1="idle"/>
+        <StatComponent gridArea="b2" title="CPU Usage and Allocation" loaded1={statusCpuUsage} loaded2={statusCpuAllocation} stat1={cpu_usage} stat2={cpu_allocation} unit={'core'}/>
+        <StatComponent gridArea="b3" title="Memory Usage  and Allocation" loaded1={statusMemoryAllocation} loaded2={statusMemoryUsage} stat1={memory_usage} stat2={memory_allocation} unit={'GB'}/>
+        <StatComponent gridArea="b4" title="N Active Pod" loaded1={statusPods} stat1={active_pods}/>
       </div>
     </div>
   );
