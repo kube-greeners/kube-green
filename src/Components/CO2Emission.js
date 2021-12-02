@@ -26,8 +26,12 @@ function Co2Emission() {
 
   }, [dispatch, loadingStatus])
 
-  return loadingStatus === 'succeeded' ? <LineChart data={data} loadingStatus={loadingStatus} /> : <LoadingSpinner />;
-  
+  return loadingStatus === 'succeeded' ?
+    <LineChart data={data} loadingStatus={loadingStatus} />
+    : <div style={{ height: 500, display: 'flex', justifyContent:'center',alignItems:'center'}}>
+      <LoadingSpinner />
+    </div>;
+
 }
 
 export default Co2Emission;

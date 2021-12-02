@@ -68,29 +68,25 @@ function App() {
 
   return (
     <div className="container">
-      <Row gutter={[24, 24]}>
-        <Col span={16}>
-          <Card style={{ height: '100%', position: 'relative' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
-        </Col>
-        <Col span={8} className="flexcolumn">
-          <Card style={statContainerStyle} title="Saved Emission"></Card>
-          <Card style={statContainerStyle} title="CPU Usage and Allocation">
-            {(statusCpuUsage ==='succeeded' && statusCpuAllocation === `succeeded`) ? 
-            `${cpu_usage.toFixed(2)} core / ${cpu_allocation.toFixed(2)} core` : 
+      <div className="layout-grid">
+        <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
+        <Card style={{...statContainerStyle,gridArea:'b1'}} title="Saved Emission">Loading...</Card>
+        <Card style={{...statContainerStyle,gridArea:'b2'}} title="CPU Usage and Allocation">
+          {(statusCpuUsage === 'succeeded' && statusCpuAllocation === `succeeded`) ?
+            `${cpu_usage.toFixed(2)} core / ${cpu_allocation.toFixed(2)} core` :
             `Loading...`}
-          </Card>
-          <Card style={statContainerStyle} title="Memory Usage  and Allocation">
-            {(statusMemoryAllocation ==='succeeded' && statusMemoryUsage === 'succeeded') ? 
-            `${memory_usage.toFixed(2)} GB / ${memory_allocation.toFixed(2)} GB` : 
+        </Card>
+        <Card style={{...statContainerStyle,gridArea:'b3'}} title="Memory Usage  and Allocation">
+          {(statusMemoryAllocation === 'succeeded' && statusMemoryUsage === 'succeeded') ?
+            `${memory_usage.toFixed(2)} GB / ${memory_allocation.toFixed(2)} GB` :
             'Loading...'}
-          </Card>
-          <Card style={statContainerStyle} title="N Active Pod">
-            {(statusPods === 'succeeded') ? 
-            active_pods : 
+        </Card>
+        <Card style={{...statContainerStyle,gridArea:'b4'}} title="N Active Pod">
+          {(statusPods === 'succeeded') ?
+            active_pods :
             'Loading...'}
-          </Card>
-        </Col>
-      </Row>
+        </Card>
+      </div>
     </div>
   );
 }
