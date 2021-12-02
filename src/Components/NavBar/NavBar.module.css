@@ -1,6 +1,7 @@
 .navbar {
 }
 .logo {
+    padding: 1.5rem;
 }
 .navbar::before {
     content: "";
