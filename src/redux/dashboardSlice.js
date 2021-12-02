@@ -42,8 +42,6 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchCO2EmissionData.fulfilled, (state, action) => {
         state.co2.status = "succeeded";
-        //We are just using the CPU data from first pod in the array. When when KG-121 it should just be state.Co2DiagramData = action.payload.values
-        console.log(action.payload[0]);
         const transformedData = action.payload[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of CO2": parseFloat(d[1])}));
         state.co2.data = transformedData;
       })
@@ -80,7 +78,7 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchCpuAllocation.fulfilled, (state, action) => {
         state.cpu.statusAllocation = 'succeeded';
-        if(action.payload.values.length !== 0){
+        if(action.payload[0].values.length !== 0){
           state.cpu.currentAllocated = parseFloat(action.payload[0].values.pop().pop());
           state.cpu.allocated = action.payload[0].values;
         }
