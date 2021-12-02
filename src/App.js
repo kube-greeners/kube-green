@@ -81,7 +81,7 @@ function App() {
             `${memory_usage.toFixed(2)} GB / ${memory_allocation.toFixed(2)} GB` :
             'Loading...'}
         </Card>
-        <Card style={{...statContainerStyle,gridArea:'b4'}} title="N Active Pod">
+        <Card style={{...statContainerStyle,gridArea:'b4'}} title="Active Pods">
           {(statusPods === 'succeeded') ?
             active_pods :
             'Loading...'}
