@@ -1,7 +1,6 @@
 @import "~antd/dist/antd.css";
 
 body {
-  height: 100vh;
   background: #ececec;
 }
 
@@ -20,8 +19,6 @@ body {
 }
 
 .layout-grid {
-  align-content: center;
-  height: 100vh;
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap:1rem;
