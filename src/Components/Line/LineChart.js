@@ -17,16 +17,15 @@ import { Line } from '@ant-design/charts';
  * ]
  */
 const LineChart = ({data}) => {
-
     
     const [xField,yField] = Object.keys(data[0])
 
-    
     const config = {
         data: data,
         xField,
         yField,
         height:500,
+        appendPadding:20,
         xAxis: {
             tickCount: 10,
             title: {
@@ -41,8 +40,8 @@ const LineChart = ({data}) => {
             },
         },
         slider: {
-            start: 0.9,
-            end: 1,
+            start: 0,
+            end: 0.99,
             trendCfg: {
                 lineStyle: {
                     opacity:.1,
