@@ -67,6 +67,7 @@ function App() {
   }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation])
 
   return (
+    <>
     <div className="container">
       <div className="layout-grid">
         <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
@@ -88,6 +89,7 @@ function App() {
         </Card>
       </div>
     </div>
+    </>
   );
 }
 
