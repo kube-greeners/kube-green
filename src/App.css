@@ -1,14 +1,12 @@
 @import "~antd/dist/antd.css";
 
 body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #ececec;
 }
 
 #root {
+  padding-top: 7rem;
+  padding-bottom: 5rem;
   margin:auto;
 }
 
@@ -23,8 +21,6 @@ body {
 }
 
 .layout-grid {
-  align-content: center;
-  height: 100vh;
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap:1rem;

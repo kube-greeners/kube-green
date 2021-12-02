@@ -1,5 +1,6 @@
 import StatComponent from './Components/StatComponent';
 import Co2Emission from './Components/CO2Emission'
+import NavBar from './Components/NavBar/NavBar';
 import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from './Utilities/dataFetching';
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useRef } from 'react';
@@ -60,6 +61,8 @@ function App() {
   }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation])
 
   return (
+    <>
+    <NavBar/>
     <div className="container">
       <div className="layout-grid">
         <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission/></Card>
@@ -69,6 +72,7 @@ function App() {
         <StatComponent gridArea="b4" title="N Active Pod" loaded1={statusPods} stat1={active_pods}/>
       </div>
     </div>
+    </>
   );
 }
 
