@@ -1,3 +1,7 @@
+.navbar {
+}
+.logo {
+}
 .navbar::before {
     content: "";
     height: .3rem;
