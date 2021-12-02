@@ -1,0 +1,13 @@
+.navbar::before {
+    content: "";
+    height: .3rem;
+    display: block;
+    background: linear-gradient(
+        to left,
+        #F1883F,
+        #EA515A,
+        #664389,
+        #26A570,
+        #28B7E0
+    )
+}
