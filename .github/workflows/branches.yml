@@ -26,9 +26,8 @@ jobs:
           npm i
           npm run build
         env:
-          REACT_APP_API_BASE_URL: "/"
+          REACT_APP_API_BASE_URL: "../"
           GENERATE_SOURCEMAP: "false"
-          PUBLIC_URL: "/${{ env.name }}/"
 
       - name: Upload artifact to Github
         uses: actions/upload-artifact@v2
@@ -53,6 +52,7 @@ jobs:
         run: |
           gcloud container clusters get-credentials test-cluster --zone=europe-west1-b --project=kube-greeners
           kubectl create configmap $name --from-file=./build.tar.gz -n frontend
+
 
       - name: Rolling restart all backends
         run: |

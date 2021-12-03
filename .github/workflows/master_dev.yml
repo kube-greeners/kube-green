@@ -19,9 +19,8 @@ jobs:
           npm i
           npm run build
         env:
-          REACT_APP_API_BASE_URL: "/"
+          REACT_APP_API_BASE_URL: "../"
           GENERATE_SOURCEMAP: "false"
-          PUBLIC_URL: "/${{ github.ref_name }}/"
 
       - name: Upload artifact to Github
         uses: actions/upload-artifact@v2
