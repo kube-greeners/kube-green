@@ -28,6 +28,7 @@ jobs:
         env:
           REACT_APP_API_BASE_URL: "../"
           GENERATE_SOURCEMAP: "false"
+          PUBLIC_URL: "/${{ env.name }}/"
 
       - name: Upload artifact to Github
         uses: actions/upload-artifact@v2
