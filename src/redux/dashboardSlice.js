@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
 import { fetchCO2EmissionData,fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation, fetchSavedEmission } from '../Utilities/dataFetching'
 import { convertDate } from '../Utilities/utilityFunctions'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   co2: {
