@@ -38,6 +38,12 @@ export const apiSlice = createApi({
       query: ({namespace,interval,step}) => `/memory_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
       transformResponse
     }),
+    getSavedEmission: builder.query({
+      query: ({interval,step}) => `saved_co2_emission?interval=${interval}}&step=${step}`,
+      transformResponse: resData => {
+        return parseFloat(resData[0].values.pop().pop())
+      }
+    }),
   }),
 })
 
@@ -48,7 +54,8 @@ export const {
   useGetCpuUsageQuery,
   useGetCpuAllocationQuery,
   useGetMemoryUsageQuery,
-  useGetMemoryAllocationQuery
+  useGetMemoryAllocationQuery,
+  useGetSavedEmissionQuery
 } = apiSlice
 
 
