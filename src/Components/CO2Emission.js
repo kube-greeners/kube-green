@@ -10,6 +10,7 @@ function Co2Emission() {
   const {
     data: usage,
     isLoading,
+    isFetching,
     isSuccess,
     isError,
     error
@@ -18,7 +19,7 @@ function Co2Emission() {
   
 
 
-  return isSuccess ?
+  return !isFetching && isSuccess ?
     <LineChart data={usage} />
     : <div style={{ height: 500, display: 'flex', justifyContent:'center',alignItems:'center'}}>
       <LoadingSpinner />
