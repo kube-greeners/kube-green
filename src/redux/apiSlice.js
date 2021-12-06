@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { convertDate } from '../Utilities/utilityFunctions'
 
+const transformResponse = resData => {
+  const currentValue = parseFloat(resData[0].values.pop().pop());
+  const data = resData[0].values;
+  return {currentValue,data};
+}
+
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -14,43 +20,23 @@ export const apiSlice = createApi({
     }),
     getPods: builder.query({
       query: ({namespace,interval,step}) => `/all_active_pods?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse: resData => {
-        const currentValue = parseFloat(resData[0].values.pop().pop());
-        const data = resData[0].values;
-        return {currentValue,data};
-      }
+      transformResponse
     }),
     getCpuUsage: builder.query({
       query: ({namespace,interval,step}) => `/cpu_usage?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse: resData => {
-        const currentValue = parseFloat(resData[0].values.pop().pop());
-        const data = resData[0].values;
-        return {currentValue,data};
-      }
+      transformResponse
     }),
     getCpuAllocation: builder.query({
       query: ({namespace,interval,step}) => `cpu_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse: resData => {
-        const currentValue = parseFloat(resData[0].values.pop().pop())
-        const data = resData[0].values;
-        return {currentValue,data};
-      }
+      transformResponse
     }),
     getMemoryUsage: builder.query({
       query: ({namespace,interval,step}) => `/memory_usage?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse: resData => {
-        const currentValue = parseFloat(resData[0].values.pop().pop())
-        const data = resData[0].values;
-        return {currentValue,data};
-      }
+      transformResponse
     }),
     getMemoryAllocation: builder.query({
       query: ({namespace,interval,step}) => `/memory_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse: resData => {
-        const currentValue = parseFloat(resData[0].values.pop().pop())
-        const data = resData[0].values;
-        return {currentValue,data};
-      }
+      transformResponse
     }),
   }),
 })
