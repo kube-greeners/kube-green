@@ -1,84 +1,64 @@
 import StatComponent from './Components/StatComponent';
 import Co2Emission from './Components/CO2Emission'
 import NavBar from './Components/NavBar/NavBar';
-import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation, fetchSavedEmission } from './Utilities/dataFetching';
-import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useRef } from 'react';
 import { Card } from 'antd'
 import './App.css';
+import {
+  useGetPodsQuery,
+  useGetCpuUsageQuery,
+  useGetCpuAllocationQuery,
+  useGetMemoryUsageQuery,
+  useGetMemoryAllocationQuery,
+  useGetSavedEmissionQuery
+} from './redux/apiSlice';
 
+const queryParams = {namespace:"production",interval:"5d",step:"1h"}
 
 function App() {
 
-  const statusCpuUsage = useSelector(state => state.dashboard.cpu.statusUsage);
-  const statusCpuAllocation = useSelector(state => state.dashboard.cpu.statusAllocation);
-  const statusMemoryUsage = useSelector(state => state.dashboard.memory.statusUsage);
-  const statusMemoryAllocation = useSelector(state => state.dashboard.memory.statusAllocation);
-  const statusPods = useSelector(state => state.dashboard.pods.status);
-  const statusSavedEmission = useSelector(state => state.dashboard.emission.status);
+  const podFetch = useGetPodsQuery(queryParams);
+  const cpuUsageFetch = useGetCpuUsageQuery(queryParams);
+  const cpuAllocationFetch = useGetCpuAllocationQuery(queryParams);
+  const memoryUsageFetch = useGetMemoryUsageQuery(queryParams);
+  const memoryAllocationFetch = useGetMemoryAllocationQuery(queryParams);
+  const savedEmissionFetch = useGetSavedEmissionQuery({interval:queryParams.interval,step:queryParams.step});
 
-  const fetchingCpuUsageRef = useRef(false)
-  const fetchingCpuAllocationRef = useRef(false)
-  const fetchingMemoryUsageRef = useRef(false)
-  const fetchingMemoryAllocationRef = useRef(false)
-  const fetchingPodsRef = useRef(false)
-  const fetchingSavedEmissionRef = useRef(false)
-
-  const active_pods = useSelector(state => state.dashboard.pods.currentValue);
-  const cpu_usage = useSelector(state => state.dashboard.cpu.currentUsage);
-  const cpu_allocation = useSelector(state => state.dashboard.cpu.currentAllocated);
-  const memory_usage = useSelector(state => state.dashboard.memory.currentUsage);
-  const memory_allocation = useSelector(state => state.dashboard.memory.currentAllocated);
-  const savedEmission = useSelector(state => state.dashboard.emission.data);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const namespace = "production"
-    const interval = "10d"
-    const step = "1h"
-
-    //Make sure we only fetch the data once. 
-    //TODO: check edge cases for failed when we have the correct endpoint
-    if (statusCpuUsage === 'idle' && !fetchingCpuUsageRef.current) {
-      dispatch(fetchCpuUsage({ namespace, interval, step }))
-      fetchingCpuUsageRef.current = true;
-    }
-    if (statusCpuAllocation === 'idle' && !fetchingCpuAllocationRef.current) {
-      dispatch(fetchCpuAllocation({ namespace, interval, step }))
-      fetchingCpuAllocationRef.current = true;
-    }
-    if (statusPods === 'idle' && !fetchingPodsRef.current) {
-      dispatch(fetchActivePods({ namespace, interval, step }))
-      fetchingPodsRef.current = true;
-    }
-    if (statusMemoryUsage === 'idle' && !fetchingMemoryUsageRef.current) {
-      dispatch(fetchMemoryUsage({ namespace, interval, step }))
-      fetchingMemoryUsageRef.current = true;
-    }
-    if (statusMemoryAllocation === 'idle' && !fetchingMemoryAllocationRef.current) {
-      dispatch(fetchMemoryAllocation({ namespace, interval, step }))
-      fetchingMemoryAllocationRef.current = true;
-    }
-    if (statusSavedEmission === 'idle' && !fetchingSavedEmissionRef.current) {
-      dispatch(fetchSavedEmission({ interval, step}))
-      fetchingSavedEmissionRef.current = true;
-    }
-
-  }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation, statusSavedEmission])
 
   return (
     <>
-    <NavBar/>
-    <div className="container">
-      <div className="layout-grid">
-        <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission/></Card>
-        <StatComponent gridArea="b1" title="Saved Emission" loaded1={statusSavedEmission} stat1={savedEmission} unit={'grams'}/>
-        <StatComponent gridArea="b2" title="CPU Usage and Allocation" loaded1={statusCpuUsage} loaded2={statusCpuAllocation} stat1={cpu_usage} stat2={cpu_allocation} unit={'core'}/>
-        <StatComponent gridArea="b3" title="Memory Usage  and Allocation" loaded1={statusMemoryAllocation} loaded2={statusMemoryUsage} stat1={memory_usage} stat2={memory_allocation} unit={'GB'}/>
-        <StatComponent gridArea="b4" title="N Active Pod" loaded1={statusPods} stat1={active_pods}/>
+      <NavBar />
+      <div className="container">
+        <div className="layout-grid">
+          <Card style={{  gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /></Card>
+          <StatComponent
+            gridArea="b1"
+            title="Saved Emission"
+            loaded1={savedEmissionFetch.isSuccess}
+            stat1={savedEmissionFetch.data} unit={'grams'}
+          />
+          <StatComponent
+            gridArea="b2"
+            title="CPU Usage and Allocation"
+            loaded1={cpuAllocationFetch.isSuccess}
+            loaded2={cpuUsageFetch.isSuccess}
+            stat1={cpuAllocationFetch.data?.currentValue}
+            stat2={cpuUsageFetch.data?.currentValue} unit={'core'}
+          />
+          <StatComponent
+            gridArea="b3"
+            title="Memory Usage  and Allocation"
+            loaded1={memoryAllocationFetch.isSuccess}
+            loaded2={memoryUsageFetch.isSuccess} stat1={memoryAllocationFetch.data?.currentValue}
+            stat2={memoryUsageFetch.data?.currentValue} unit={'GB'}
+          />
+          <StatComponent
+            gridArea="b4"
+            title="N Active Pod"
+            loaded1={podFetch.isSuccess}
+            stat1={podFetch.data?.currentValue}
+          />
+        </div>
       </div>
-    </div>
     </>
   );
 }
