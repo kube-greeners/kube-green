@@ -18,7 +18,7 @@ function App() {
 
   const fetchingCpuUsageRef = useRef(false)
   const fetchingCpuAllocationRef = useRef(false)
-  // const fetchingMemoryUsageRef = useRef(false)
+  const fetchingMemoryUsageRef = useRef(false)
   const fetchingMemoryAllocationRef = useRef(false)
   const fetchingPods = useRef(false)
 
@@ -51,7 +51,7 @@ function App() {
     }
     if (statusMemoryUsage === 'idle' && !fetchingMemoryUsageRef.current) {
       dispatch(fetchMemoryUsage({ namespace, interval, step }))
-      fetchMemoryUsage.current = true;
+      fetchingMemoryUsageRef.current = true;
     }
     if (statusMemoryAllocation === 'idle' && !fetchingMemoryAllocationRef.current) {
       dispatch(fetchMemoryAllocation({ namespace, interval, step }))
