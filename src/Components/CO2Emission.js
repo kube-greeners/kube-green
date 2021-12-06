@@ -1,32 +1,30 @@
 import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
 import LineChart from "./Line/LineChart";
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchCO2EmissionData } from "../Utilities/dataFetching";
-import { useEffect } from 'react';
+import { useGetCO2EmissionQuery } from "../redux/apiSlice";
+import { convertDate } from "../Utilities/utilityFunctions";
+
 
 
 function Co2Emission() {
-  const data = useSelector((state) => state.dashboard.co2.data);
-  const loadingStatus = useSelector(state => state.dashboard.co2.status);
+  const {
+    data: usage,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  } = useGetCO2EmissionQuery({namespace:"production",interval:"5d",step:"1h"});
 
-  const dispatch = useDispatch();
+  
+  let data;
+  if(isSuccess) {
+    data = usage[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of CO2": parseFloat(d[1])}))
+  }
+  
 
-  useEffect(() => {
-    const namespace = "production"
-    const interval = "5d"
-    const step = "1h"
 
-    //Make sure we only fetch the data once. 
-    //TODO: check edge cases for failed when we have the correct endpoint
-    if (loadingStatus === 'idle') {
-      dispatch(fetchCO2EmissionData({ namespace, interval, step }))
-    }
-
-  }, [dispatch, loadingStatus])
-
-  return loadingStatus === 'succeeded' ?
-    <LineChart data={data} loadingStatus={loadingStatus} />
+  return isSuccess ?
+    <LineChart data={data} />
     : <div style={{ height: 500, display: 'flex', justifyContent:'center',alignItems:'center'}}>
       <LoadingSpinner />
     </div>;

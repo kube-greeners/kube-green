@@ -1,5 +1,4 @@
 import { fetchCO2EmissionData,fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation, fetchSavedEmission } from '../Utilities/dataFetching'
-import { convertDate } from '../Utilities/utilityFunctions'
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
@@ -40,18 +39,6 @@ export const dashboardSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      //Co2Emission
-      .addCase(fetchCO2EmissionData.pending, (state, action) => {
-        state.co2.status = "loading";
-      })
-      .addCase(fetchCO2EmissionData.fulfilled, (state, action) => {
-        state.co2.status = "succeeded";
-        const transformedData = action.payload[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of CO2": parseFloat(d[1])}));
-        state.co2.data = transformedData;
-      })
-      .addCase(fetchCO2EmissionData.rejected, (state, action) => {
-        state.co2.status = "failed";
-      })
       //Active pods
       .addCase(fetchActivePods.pending, (state, action) => {
         state.pods.status = "loading";
