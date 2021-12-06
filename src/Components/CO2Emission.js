@@ -1,11 +1,10 @@
+import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
 import LineChart from "./Line/LineChart";
 import React from 'react';
-import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCO2EmissionData } from "../Utilities/dataFetching";
+import { useEffect } from 'react';
 
-// import data from "../Mockdata/c02emission.json"
 
 function Co2Emission() {
   const data = useSelector((state) => state.dashboard.co2.data);
