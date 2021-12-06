@@ -4,6 +4,7 @@ import { Card } from 'antd'
 import Co2Emission from './Components/CO2Emission'
 import './App.css';
 import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation, fetchSavedEmission } from './Utilities/dataFetching';
+import NavBar from './Components/NavBar/NavBar';
 
 
 function App() {
@@ -58,9 +59,9 @@ function App() {
       dispatch(fetchActivePods({ namespace, interval, step }))
       fetchingPods.current = true;
     }
-    if (statusMemoryUsage === 'idle' && !fetchMemoryUsage.current) {
+    if (statusMemoryUsage === 'idle' && !fetchingMemoryUsageRef.current) {
       dispatch(fetchMemoryUsage({ namespace, interval, step }))
-      fetchMemoryUsage.current = true;
+      fetchingMemoryUsageRef.current = true;
     }
     if (statusMemoryAllocation === 'idle' && !fetchingMemoryAllocationRef.current) {
       dispatch(fetchMemoryAllocation({ namespace, interval, step }))
@@ -74,6 +75,8 @@ function App() {
   }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation, statusSavedEmission])
 
   return (
+    <>
+    <NavBar/>
     <div className="container">
       <div className="layout-grid">
         <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /> </Card>
@@ -99,6 +102,7 @@ function App() {
         </Card>
       </div>
     </div>
+    </>
   );
 }
 
