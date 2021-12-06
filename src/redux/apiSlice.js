@@ -44,6 +44,14 @@ export const apiSlice = createApi({
         return {currentValue,data};
       }
     }),
+    getMemoryAllocation: builder.query({
+      query: ({namespace,interval,step}) => `/memory_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
+      transformResponse: resData => {
+        const currentValue = parseFloat(resData[0].values.pop().pop())
+        const data = resData[0].values;
+        return {currentValue,data};
+      }
+    }),
   }),
 })
 
@@ -53,7 +61,8 @@ export const {
   useGetPodsQuery, 
   useGetCpuUsageQuery,
   useGetCpuAllocationQuery,
-  useGetMemoryUsageQuery
+  useGetMemoryUsageQuery,
+  useGetMemoryAllocationQuery
 } = apiSlice
 
 
