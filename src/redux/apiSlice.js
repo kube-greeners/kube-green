@@ -12,11 +12,19 @@ export const apiSlice = createApi({
         return resData[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of CO2": parseFloat(d[1])}))
       }
     }),
+    getPods: builder.query({
+      query: ({namespace,interval,step}) => `/all_active_pods?namespace=${namespace}&interval=${interval}&step=${step}`,
+      transformResponse: resData => {
+        const currentValue = parseFloat(resData[0].values.pop().pop());
+        const data = resData[0].values;
+        return {currentValue,data};
+      }
+    }),
   }),
 })
 
 
-export const { useGetCO2EmissionQuery } = apiSlice
+export const { useGetCO2EmissionQuery,useGetPodsQuery } = apiSlice
 
 
 
