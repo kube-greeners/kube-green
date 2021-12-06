@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchCO2EmissionData,fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from '../Utilities/dataFetching'
+import { fetchCO2EmissionData,fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation, fetchSavedEmission } from '../Utilities/dataFetching'
 import { convertDate } from '../Utilities/utilityFunctions'
 
 const initialState = {
   co2: {
-    status: "idle",
-    data: [],
+    status:'idle',
+    data:[],
   },
   cpu: {
     statusUsage:'idle',
@@ -24,10 +24,14 @@ const initialState = {
     currentUsage:0
   },
   pods: {
-    status: "idle",
-    data: [],
-    currentValue: 0,
+    status:'idle',
+    data:[],
+    currentValue:0,
   },
+  emission: {
+    status:'idle',
+    data:0
+  }
 };
 
 export const dashboardSlice = createSlice({
@@ -111,6 +115,18 @@ export const dashboardSlice = createSlice({
       })
       .addCase(fetchMemoryAllocation.rejected, (state, action) => {
         state.memory.statusAllocation = 'failed'
+      })
+      //saved emission
+      .addCase(fetchSavedEmission.pending, (state, action) => {
+        state.emission.status = 'loading'
+        console.log('loading')
+      })
+      .addCase(fetchSavedEmission.fulfilled, (state, action) => {
+        state.emission.status = 'succeeded';
+        state.emission.data = parseFloat(action.payload[0].values.pop().pop());
+        })
+      .addCase(fetchSavedEmission.rejected, (state, action) => {
+        state.emission.status = 'failed'
       })
   }
 })

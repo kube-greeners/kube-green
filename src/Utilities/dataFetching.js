@@ -30,3 +30,8 @@ export const fetchMemoryAllocation = createAsyncThunk('dashboard/memoryAllocatio
      return await fetch(`${process.env.REACT_APP_API_BASE_URL}/memory_allocation?namespace=${namespace}&interval=${interval}}&step=${step}`)
      .then(res => res.json()) 
 })
+
+export const fetchSavedEmission = createAsyncThunk('dashboard/savedEmission', async ({namespace,interval,step}) => {
+     return await fetch(`${process.env.REACT_APP_API_BASE_URL}/saved_co2_emission?interval=${interval}}&step=${step}`)
+     .then(res => res.json()) 
+})
