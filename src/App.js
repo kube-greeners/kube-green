@@ -1,7 +1,7 @@
 import StatComponent from './Components/StatComponent';
 import Co2Emission from './Components/CO2Emission'
 import NavBar from './Components/NavBar/NavBar';
-import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation } from './Utilities/dataFetching';
+import { fetchActivePods, fetchCpuUsage, fetchCpuAllocation, fetchMemoryUsage, fetchMemoryAllocation, fetchSavedEmission } from './Utilities/dataFetching';
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useRef } from 'react';
 import { Card } from 'antd'
@@ -15,18 +15,21 @@ function App() {
   const statusMemoryUsage = useSelector(state => state.dashboard.memory.statusUsage);
   const statusMemoryAllocation = useSelector(state => state.dashboard.memory.statusAllocation);
   const statusPods = useSelector(state => state.dashboard.pods.status);
+  const statusSavedEmission = useSelector(state => state.dashboard.emission.status);
 
   const fetchingCpuUsageRef = useRef(false)
   const fetchingCpuAllocationRef = useRef(false)
   const fetchingMemoryUsageRef = useRef(false)
   const fetchingMemoryAllocationRef = useRef(false)
-  const fetchingPods = useRef(false)
+  const fetchingPodsRef = useRef(false)
+  const fetchingSavedEmissionRef = useRef(false)
 
   const active_pods = useSelector(state => state.dashboard.pods.currentValue);
   const cpu_usage = useSelector(state => state.dashboard.cpu.currentUsage);
   const cpu_allocation = useSelector(state => state.dashboard.cpu.currentAllocated);
   const memory_usage = useSelector(state => state.dashboard.memory.currentUsage);
   const memory_allocation = useSelector(state => state.dashboard.memory.currentAllocated);
+  const savedEmission = useSelector(state => state.dashboard.emission.data);
 
   const dispatch = useDispatch();
 
@@ -45,9 +48,9 @@ function App() {
       dispatch(fetchCpuAllocation({ namespace, interval, step }))
       fetchingCpuAllocationRef.current = true;
     }
-    if (statusPods === 'idle' && !fetchingPods.current) {
+    if (statusPods === 'idle' && !fetchingPodsRef.current) {
       dispatch(fetchActivePods({ namespace, interval, step }))
-      fetchingPods.current = true;
+      fetchingPodsRef.current = true;
     }
     if (statusMemoryUsage === 'idle' && !fetchingMemoryUsageRef.current) {
       dispatch(fetchMemoryUsage({ namespace, interval, step }))
@@ -57,8 +60,12 @@ function App() {
       dispatch(fetchMemoryAllocation({ namespace, interval, step }))
       fetchingMemoryAllocationRef.current = true;
     }
+    if (statusSavedEmission === 'idle' && !fetchingSavedEmissionRef.current) {
+      dispatch(fetchSavedEmission({ interval, step}))
+      fetchingSavedEmissionRef.current = true;
+    }
 
-  }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation])
+  }, [dispatch, statusCpuAllocation, statusCpuUsage, statusPods, statusMemoryUsage, statusMemoryAllocation, statusSavedEmission])
 
   return (
     <>
@@ -66,7 +73,7 @@ function App() {
     <div className="container">
       <div className="layout-grid">
         <Card style={{ height: '100%', gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission/></Card>
-        <StatComponent gridArea="b1" title="Saved Emission" loaded1="idle"/>
+        <StatComponent gridArea="b1" title="Saved Emission" loaded1={statusSavedEmission} stat1={savedEmission} unit={'grams'}/>
         <StatComponent gridArea="b2" title="CPU Usage and Allocation" loaded1={statusCpuUsage} loaded2={statusCpuAllocation} stat1={cpu_usage} stat2={cpu_allocation} unit={'core'}/>
         <StatComponent gridArea="b3" title="Memory Usage  and Allocation" loaded1={statusMemoryAllocation} loaded2={statusMemoryUsage} stat1={memory_usage} stat2={memory_allocation} unit={'GB'}/>
         <StatComponent gridArea="b4" title="N Active Pod" loaded1={statusPods} stat1={active_pods}/>
