@@ -16,15 +16,10 @@ function Co2Emission() {
   } = useGetCO2EmissionQuery({namespace:"production",interval:"5d",step:"1h"});
 
   
-  let data;
-  if(isSuccess) {
-    data = usage[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of CO2": parseFloat(d[1])}))
-  }
-  
 
 
   return isSuccess ?
-    <LineChart data={data} />
+    <LineChart data={usage} />
     : <div style={{ height: 500, display: 'flex', justifyContent:'center',alignItems:'center'}}>
       <LoadingSpinner />
     </div>;
