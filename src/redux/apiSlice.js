@@ -28,6 +28,14 @@ export const apiSlice = createApi({
         return {currentValue,data};
       }
     }),
+    getCpuAllocation: builder.query({
+      query: ({namespace,interval,step}) => `cpu_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
+      transformResponse: resData => {
+        const currentValue = parseFloat(resData[0].values.pop().pop())
+        const data = resData[0].values;
+        return {currentValue,data};
+      }
+    }),
   }),
 })
 
@@ -36,6 +44,7 @@ export const {
   useGetCO2EmissionQuery,
   useGetPodsQuery, 
   useGetCpuUsageQuery,
+  useGetCpuAllocationQuery
 } = apiSlice
 
 
