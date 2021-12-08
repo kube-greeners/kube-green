@@ -6,14 +6,33 @@ const { Option } = Select;
 export default function Selectors() {
 
     const {namespaces,resources} = useSelector(state => state.dashboard.selects);
+    
+    const nameSpaceSelected = ns => {
+        
+    }
+
+    const resourceSelected = rs => {
+        
+    }
+
     return (
         <>
             <Row gutter={24} style={{ paddingTop: '7rem' }}>
                 <Col span={7}>
-                    <Selector data={namespaces.data} name="Namespace" defaultVal={namespaces.currentlySelected} style={{display:'block'}}/>
+                    <Selector 
+                    data={namespaces.data} 
+                    name="Namespace" 
+                    defaultVal={namespaces.currentlySelected} 
+                    style={{ display: 'block' }} 
+                    onChange={nameSpaceSelected} />
                 </Col>
                 <Col span={7}>
-                    <Selector data={resources.data} name="Resource" defaultVal={resources.currentlySelected} style={{display:'block'}}/>
+                    <Selector
+                        data={resources.data}
+                        name="Resource" 
+                        defaultVal={resources.currentlySelected} 
+                        style={{ display: 'block' }} 
+                        onChange={resourceSelected} />
                 </Col>
             </Row>
         </>
