@@ -15,12 +15,12 @@ function StatComponent({ gridArea, title, loaded1, loaded2, stat1, stat2, unit }
         title={title}
       >
         {loaded2
-          ? loaded1 === "succeeded" && loaded2 === "succeeded"
+          ? loaded1 && loaded2
             ? `${stat1.toFixed(2)} ${unit} / ${stat2.toFixed(
                 2
               )} ${unit}`
             : "Loading..."
-          : loaded1 === "succeeded"
+          : loaded1
           ? `${stat1.toFixed(2)} ${unit ? unit : '' }`
           : "Loading..."}
       </Card>
