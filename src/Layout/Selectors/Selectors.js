@@ -49,9 +49,9 @@ function Selector({ data, name,defaultVal , ...rest }) {
 
     return (
         <>
-            <label for={name} style={labelStyle}>{name}</label>
+            <label htmlFor={name} style={labelStyle}>{name}</label>
             <Select id={name} defaultValue={defaultVal} {...rest} >
-                {data.map(n => <Option value={n}>{n}</Option>)}
+                {data.map(n => <Option key={n} value={n}>{n}</Option>)}
             </Select>
         </>
     )
