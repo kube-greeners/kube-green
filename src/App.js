@@ -1,7 +1,7 @@
 import StatComponent from './Components/StatComponent';
 import Co2Emission from './Components/CO2Emission'
 import NavBar from './Components/NavBar/NavBar';
-import { Card } from 'antd'
+import { Card,Divider } from 'antd'
 import './App.css';
 import {
   useGetPodsQuery,
@@ -11,6 +11,8 @@ import {
   useGetMemoryAllocationQuery,
   useGetSavedEmissionQuery
 } from './redux/apiSlice';
+import Selectors from './Layout/Selectors/Selectors';
+
 
 const queryParams = {namespace:"production",interval:"5d",step:"1h"}
 
@@ -28,6 +30,8 @@ function App() {
     <>
       <NavBar />
       <div className="container">
+      <Selectors/>
+      <Divider/>
         <div className="layout-grid">
           <Card style={{  gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /></Card>
           <StatComponent
