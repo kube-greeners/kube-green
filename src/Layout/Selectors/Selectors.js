@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Row, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
+import { setCurrentlySelectedNamespace,setCurrentlySelectedResource } from '../../redux/dashboardSlice';
 const { Option } = Select;
 
 export default function Selectors() {
@@ -9,11 +10,11 @@ export default function Selectors() {
     const dispatch = useDispatch();
     
     const nameSpaceSelected = ns => {
-        
+        dispatch(setCurrentlySelectedNamespace(ns))
     }
 
     const resourceSelected = rs => {
-        
+        dispatch(setCurrentlySelectedResource(rs))
     }
 
     return (
