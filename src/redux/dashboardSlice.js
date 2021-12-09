@@ -29,8 +29,15 @@ const initialState = {
 export const dashboardSlice = createSlice({
   name: "dashboard",
   initialState,
-  reducers: {},
-  
+  reducers: {
+    setCurrentlySelectedNamespace: (state, action) => {
+      state.selects.namespaces.currentlySelected = action.payload
+    },
+    setCurrentlySelectedResource: (state, action) => {
+      state.selects.resources.currentlySelected = action.payload
+    },
+  },
+
 })
 
 export default dashboardSlice.reducer;
