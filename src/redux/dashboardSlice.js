@@ -40,4 +40,6 @@ export const dashboardSlice = createSlice({
 
 })
 
+export const { setCurrentlySelectedNamespace,setCurrentlySelectedResource } = dashboardSlice.actions
+
 export default dashboardSlice.reducer;
