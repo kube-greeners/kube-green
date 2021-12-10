@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row, Select, DatePicker } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentInterval, setCurrentlySelectedNamespace,setCurrentlySelectedResource } from '../redux/dashboardSlice';
+import { setCurrentlySelectedNamespace,setCurrentlySelectedResource } from '../../redux/dashboardSlice';
 import moment from 'moment';
 const { Option } = Select;
 
@@ -12,8 +12,7 @@ export default function Selectors() {
     const dateFormat = 'YYYY/MM/DD';
 
     const {namespaces,resources} = useSelector(state => state.dashboard.selects);
-    const {startDate, endDate} = useSelector(state => state.dashboard.interval);
-
+    //const {startDate, endDate} = useSelector(state => state.dashboard.interval);
     const dispatch = useDispatch();
     
     const nameSpaceSelected = ns => {
@@ -24,8 +23,8 @@ export default function Selectors() {
         dispatch(setCurrentlySelectedResource(rs))
     }
 
-    const intervalSelected = (date, dateString) => {
-        dispatch(setCurrentInterval(dateString))        
+    const intervalSelected = rs => {
+        
     }
 
     const labelStyle = {
@@ -58,8 +57,9 @@ export default function Selectors() {
                 <Col span={7}>
                     <label style={labelStyle}>Time interval</label>
                     <RangePicker
-                        defaultValue={[moment(startDate, dateFormat), moment(endDate, dateFormat)]}
+                        defaultValue={[moment('2021/12/01', dateFormat), moment('2021/12/09', dateFormat)]}
                         format={dateFormat}
+                        disabled={[false, true]} //could be removed
                         onChange={intervalSelected}/>    
                 </Col>
             </Row>
