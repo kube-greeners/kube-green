@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Row, Select, DatePicker } from 'antd'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCurrentlySelectedNamespace,setCurrentlySelectedResource } from '../../redux/dashboardSlice';
 import moment from 'moment';
 const { Option } = Select;
 
@@ -12,13 +13,14 @@ export default function Selectors() {
 
     const {namespaces,resources} = useSelector(state => state.dashboard.selects);
     //const {startDate, endDate} = useSelector(state => state.dashboard.interval);
+    const dispatch = useDispatch();
     
     const nameSpaceSelected = ns => {
-        
+        dispatch(setCurrentlySelectedNamespace(ns))
     }
 
     const resourceSelected = rs => {
-        
+        dispatch(setCurrentlySelectedResource(rs))
     }
 
     const intervalSelected = rs => {
