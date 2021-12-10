@@ -11,7 +11,7 @@ import {
   useGetMemoryAllocationQuery,
   useGetSavedEmissionQuery
 } from './redux/apiSlice';
-import Selectors from './Components/Selectors';
+import Selectors from './Layout/Selectors/Selectors';
 
 
 const queryParams = {namespace:"production",interval:"5d",step:"1h"}
