@@ -22,7 +22,11 @@ const initialState = {
         'Active Pods',
         'Estimated CO2 Emission',
       ]
-    }
+    },
+  },
+  interval: {
+    startDate: '2021-12-01',
+    endDate: '2021-12-09'
   }
 };
 
