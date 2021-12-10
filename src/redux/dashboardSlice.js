@@ -25,8 +25,8 @@ const initialState = {
     },
   },
   interval: {
-    startDate: '2021-12-01',
-    endDate: '2021-12-09'
+    startDate: '2021/12/01',
+    endDate: '2021/12/09'
   }
 };
 
@@ -40,10 +40,14 @@ export const dashboardSlice = createSlice({
     setCurrentlySelectedResource: (state, action) => {
       state.selects.resources.currentlySelected = action.payload
     },
+    setCurrentInterval: (state, action) => {
+      state.interval.startDate = action.payload[0]
+      state.interval.endDate = action.payload[1]
+    }
   },
 
 })
 
-export const { setCurrentlySelectedNamespace,setCurrentlySelectedResource } = dashboardSlice.actions
+export const { setCurrentlySelectedNamespace,setCurrentlySelectedResource, setCurrentInterval } = dashboardSlice.actions
 
 export default dashboardSlice.reducer;
