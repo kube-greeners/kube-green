@@ -12,7 +12,7 @@ export default function Selectors() {
     const dateFormat = 'YYYY/MM/DD';
 
     const {namespaces,resources} = useSelector(state => state.dashboard.selects);
-    //const {startDate, endDate} = useSelector(state => state.dashboard.interval);
+    const {startDate, endDate} = useSelector(state => state.dashboard.interval);
     const dispatch = useDispatch();
     
     const nameSpaceSelected = ns => {
@@ -57,7 +57,7 @@ export default function Selectors() {
                 <Col span={7}>
                     <label style={labelStyle}>Time interval</label>
                     <RangePicker
-                        defaultValue={[moment('2021/12/01', dateFormat), moment('2021/12/09', dateFormat)]}
+                        defaultValue={[moment(startDate, dateFormat), moment(endDate, dateFormat)]}
                         format={dateFormat}
                         disabled={[false, true]} //could be removed
                         onChange={intervalSelected}/>    
