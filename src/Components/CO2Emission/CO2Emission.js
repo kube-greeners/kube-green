@@ -1,7 +1,7 @@
-import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
-import LineChart from "./Line/LineChart";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import LineChart from "../LineChart/LineChart";
 import React from 'react';
-import { useGetCO2EmissionQuery } from "../redux/apiSlice";
+import { useGetCO2EmissionQuery } from "../../redux/apiSlice";
 
 
 

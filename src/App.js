@@ -1,5 +1,5 @@
-import StatComponent from './Components/StatComponent';
-import Co2Emission from './Components/CO2Emission'
+import StatComponent from './Components/StatComponent/StatComponent';
+import Co2Emission from './Components/CO2Emission/CO2Emission'
 import NavBar from './Components/NavBar/NavBar';
 import { Card,Divider } from 'antd'
 import './App.css';
