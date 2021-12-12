@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const todaysDate = Number(new Date())
+const twoWeeksAgo = Number(new Date()) - 12096e5 
+
+
 const initialState = {
   selects: {
     namespaces: {
@@ -25,8 +29,8 @@ const initialState = {
     },
   },
   interval: {
-    startDate: '2021/12/01',
-    endDate: '2021/12/09'
+    startDateUnix: twoWeeksAgo,
+    endDateUnix: todaysDate
   }
 };
 
@@ -41,8 +45,8 @@ export const dashboardSlice = createSlice({
       state.selects.resources.currentlySelected = action.payload
     },
     setCurrentInterval: (state, action) => {
-      state.interval.startDate = action.payload[0]
-      state.interval.endDate = action.payload[1]
+      state.interval.startDate = Number(new Date(action.payload[0]))
+      state.interval.endDate = Number(new Date(action.payload[1]))
     }
   },
 

@@ -1,18 +1,23 @@
 import React from 'react'
 import { Col, Row, Select, DatePicker } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentlySelectedNamespace,setCurrentlySelectedResource, setCurrentInterval } from '../redux/dashboardSlice';
+import { setCurrentlySelectedNamespace, setCurrentlySelectedResource, setCurrentInterval } from '../redux/dashboardSlice';
 import moment from 'moment';
+import { convertDateWithOutTimestamp } from '../Utilities/utilityFunctions';
 const { Option } = Select;
 
 export default function Selectors() {
 
     const {RangePicker} = DatePicker;
 
-    const dateFormat = 'YYYY/MM/DD';
+    const dateFormat = 'DD/MM/YYYY';
 
     const {namespaces,resources} = useSelector(state => state.dashboard.selects);
-    const {startDate, endDate} = useSelector(state => state.dashboard.interval);
+    const {startDateUnix, endDateUnix} = useSelector(state => state.dashboard.interval);
+    const startDate = convertDateWithOutTimestamp(startDateUnix)
+    const endDate = convertDateWithOutTimestamp(endDateUnix)
+
+
     const dispatch = useDispatch();
     
     const nameSpaceSelected = ns => {
