@@ -2,6 +2,7 @@ import StatComponent from './Components/StatComponent/StatComponent';
 import Co2Emission from './Components/CO2Emission/CO2Emission'
 import NavBar from './Components/NavBar/NavBar';
 import { Card,Divider } from 'antd'
+import LineChartCard from './Components/LineChartCard/LineChartCard';
 import { useSelector } from 'react-redux';
 import './App.css';
 import {
@@ -30,6 +31,30 @@ function App() {
   const co2EmissionQuery = useGetCO2EmissionQuery(queryParams);
   const savedEmissionFetch = useGetSavedEmissionQuery({interval:queryParams.interval,step:queryParams.step});
 
+  let currentLinecart;
+  switch(resources.currentlySelected) {
+    case 'Active Pods':
+      currentLinecart = <LineChartCard currentlyShowing="Active Pods" dataFetching={podFetch}/>
+      break;
+    case 'CPU allocation':
+      currentLinecart = <LineChartCard currentlyShowing="CPU allocation" dataFetching={cpuAllocationFetch}/>
+      break;
+    case 'CPU usage':
+      currentLinecart = <LineChartCard currentlyShowing="CPU usage" dataFetching={cpuUsageFetch}/>
+      break;
+    case 'Memory usage':
+      currentLinecart = <LineChartCard currentlyShowing="Memory usage" dataFetching={memoryUsageFetch}/>
+      break;
+    case 'Memory allocation':
+      currentLinecart = <LineChartCard currentlyShowing="Memory allocation" dataFetching={memoryAllocationFetch}/>
+      break;
+    case 'Estimated CO2 Emission':
+      currentLinecart = <LineChartCard currentlyShowing="Estimated CO2 Emission" dataFetching={co2EmissionQuery}/>
+      break;
+
+  }
+
+
 
   return (
     <>
@@ -38,7 +63,7 @@ function App() {
       <Selectors/>
       <Divider/>
         <div className="layout-grid">
-          <Card style={{  gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /></Card>
+          {currentLinecart}
           <StatComponent
             gridArea="b1"
             title="Saved Emission"
