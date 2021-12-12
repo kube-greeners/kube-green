@@ -1,6 +1,22 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { convertDate } from '../Utilities/utilityFunctions'
 
+//Converts the historical data to a format that the linechart can use
+const convertHistoricalData = (data,xAxisName) => {
+
+  const res = [];
+
+  for (const d of data) {
+    const o = {};
+    o["Date"] = convertDate(d[0]*1000)
+    o[xAxisName] = parseFloat(d[1])
+
+    res.push(o)
+  }
+
+  return res
+}
+
 const transformResponse = resData => {
   const currentValue = parseFloat(resData[0].values.pop().pop());
   const data = resData[0].values;
