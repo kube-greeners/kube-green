@@ -1,7 +1,7 @@
 import StatComponent from './Components/StatComponent/StatComponent';
 
 import NavBar from './Components/NavBar/NavBar';
-import { Divider } from 'antd'
+import { Divider,Modal } from 'antd'
 import LineChartCard from './Components/LineChartCard/LineChartCard';
 import { useSelector } from 'react-redux';
 import './App.css';
@@ -15,6 +15,7 @@ import {
   useGetCO2EmissionQuery
 } from './redux/apiSlice';
 import Selectors from './Components/Selectors';
+import { useRef } from 'react';
 
 
 const queryParams = {namespace:"production",interval:"5d",step:"1h"}
@@ -31,16 +32,39 @@ function App() {
   const co2EmissionQuery = useGetCO2EmissionQuery(queryParams);
   const savedEmissionFetch = useGetSavedEmissionQuery({interval:queryParams.interval,step:queryParams.step});
 
+  const modalIsOpen = useRef(false)
+
   const fetchingMap = {
     'Active pods': podFetch,
     'CPU allocation':cpuAllocationFetch,
     'CPU usage':cpuUsageFetch,
     'Memory usage':memoryUsageFetch,
     'Memory allocation':memoryAllocationFetch,
-    'Estimated CO2 emission':co2EmissionQuery
+    'Estimated CO2 emission':co2EmissionQuery,
+    'Saved Emission':savedEmissionFetch
   }
 
+  
+  const allFetchesDone = Object.values(fetchingMap).every(f => !f.isFetching)
+  if(allFetchesDone) {
+    const errors = Object.values(fetchingMap)
+      .filter(f => f.isError)
+      .map(f => ({errMsg:f.error.error,id:f.requestId}))
+    if(errors.length > 0 && !modalIsOpen.current) {
+      modalIsOpen.current = true
+      Modal.error({
+        title:"Error fetching",
+        content: (
+          <>
+            {errors.map(e => <p key={e.id}>{e.errMsg}</p>)}
 
+          </>
+        ),
+        onOk: () => modalIsOpen.current = false
+      })
+    }
+  }
+  
   return (
     <>
       <NavBar />
