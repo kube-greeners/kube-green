@@ -17,10 +17,12 @@ const convertHistoricalData = (data,xAxisName) => {
   return res
 }
 
-const transformResponse = resData => {
-  const currentValue = parseFloat(resData[0].values.pop().pop());
-  const data = resData[0].values;
-  return {currentValue,data};
+
+function convertData(resData,xAxisName) {
+  return ({
+    currentValue: parseFloat(resData[0].values[resData[0].values.length - 1][1]),
+    historicalData: convertHistoricalData(resData[0].values, xAxisName)
+  });
 }
 
 
@@ -31,28 +33,28 @@ export const apiSlice = createApi({
     getCO2Emission: builder.query({
       query: ({namespace,interval,step}) => `/co2_emission_with_kube_green?namespace=${namespace}&interval=${interval}&step=${step}`,
       transformResponse: resData => {
-        return convertHistoricalData(resData[0].values,"Grams of CO2")
+        return {historicalData:convertHistoricalData(resData[0].values,"Grams of CO2")}
       }
     }),
     getPods: builder.query({
       query: ({namespace,interval,step}) => `/all_active_pods?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse
+      transformResponse : resData => convertData(resData, "Number of pods")
     }),
     getCpuUsage: builder.query({
       query: ({namespace,interval,step}) => `/cpu_usage?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse
+      transformResponse : resData => convertData(resData, "CPU Usage")
     }),
     getCpuAllocation: builder.query({
       query: ({namespace,interval,step}) => `cpu_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse
+      transformResponse : resData => convertData(resData, "CPU Allocation")
     }),
     getMemoryUsage: builder.query({
       query: ({namespace,interval,step}) => `/memory_usage?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse
+      transformResponse : resData => convertData(resData, "Memory Usage")
     }),
     getMemoryAllocation: builder.query({
       query: ({namespace,interval,step}) => `/memory_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
-      transformResponse
+      transformResponse : resData => convertData(resData, "Memory Allocation")
     }),
     getSavedEmission: builder.query({
       query: ({interval,step}) => `saved_co2_emission?interval=${interval}}&step=${step}`,
