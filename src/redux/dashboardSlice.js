@@ -13,14 +13,14 @@ const initialState = {
       ]
     },
     resources: {
-      currentlySelected: 'Estimated CO2 Emission',
+      currentlySelected: 'Estimated CO2 emission',
       data: [
         'CPU allocation',
         'CPU usage',
         'Memory usage',
         'Memory allocation',
-        'Active Pods',
-        'Estimated CO2 Emission',
+        'Active pods',
+        'Estimated CO2 emission',
       ]
     },
   },

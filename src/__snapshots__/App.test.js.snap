@@ -311,9 +311,9 @@ Array [
             </span>
             <span
               className="ant-select-selection-item"
-              title="Estimated CO2 Emission"
+              title="Estimated CO2 emission"
             >
-              Estimated CO2 Emission
+              Estimated CO2 emission
             </span>
           </div>
           <span
@@ -523,7 +523,7 @@ Array [
             <div
               className="ant-card-head-title"
             >
-              Estimated CO2 Emission
+              Estimated CO2 emission
             </div>
           </div>
         </div>

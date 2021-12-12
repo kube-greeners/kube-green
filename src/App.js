@@ -37,7 +37,7 @@ function App() {
     'CPU usage':cpuUsageFetch,
     'Memory usage':memoryUsageFetch,
     'Memory allocation':memoryAllocationFetch,
-    'Estimated CO2 Emission':co2EmissionQuery
+    'Estimated CO2 emission':co2EmissionQuery
   }
 
 
