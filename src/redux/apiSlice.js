@@ -31,7 +31,7 @@ export const apiSlice = createApi({
     getCO2Emission: builder.query({
       query: ({namespace,interval,step}) => `/co2_emission_with_kube_green?namespace=${namespace}&interval=${interval}&step=${step}`,
       transformResponse: resData => {
-        return resData[0].values.map(d=>({Date: convertDate(d[0]*1000),"Grams of CO2": parseFloat(d[1])}))
+        return convertHistoricalData(resData[0].values,"Grams of CO2")
       }
     }),
     getPods: builder.query({
