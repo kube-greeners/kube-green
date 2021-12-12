@@ -2,6 +2,7 @@ import StatComponent from './Components/StatComponent/StatComponent';
 import Co2Emission from './Components/CO2Emission/CO2Emission'
 import NavBar from './Components/NavBar/NavBar';
 import { Card,Divider } from 'antd'
+import { useSelector } from 'react-redux';
 import './App.css';
 import {
   useGetPodsQuery,
@@ -17,6 +18,8 @@ import Selectors from './Components/Selectors';
 const queryParams = {namespace:"production",interval:"5d",step:"1h"}
 
 function App() {
+
+  const {namespaces,resources} = useSelector(state => state.dashboard.selects);
 
   const podFetch = useGetPodsQuery(queryParams);
   const cpuUsageFetch = useGetCpuUsageQuery(queryParams);
