@@ -1,7 +1,9 @@
 import StatComponent from './Components/StatComponent/StatComponent';
-import Co2Emission from './Components/CO2Emission/CO2Emission'
+
 import NavBar from './Components/NavBar/NavBar';
-import { Card,Divider } from 'antd'
+import { Divider } from 'antd'
+import LineChartCard from './Components/LineChartCard/LineChartCard';
+import { useSelector } from 'react-redux';
 import './App.css';
 import {
   useGetPodsQuery,
@@ -9,7 +11,8 @@ import {
   useGetCpuAllocationQuery,
   useGetMemoryUsageQuery,
   useGetMemoryAllocationQuery,
-  useGetSavedEmissionQuery
+  useGetSavedEmissionQuery,
+  useGetCO2EmissionQuery
 } from './redux/apiSlice';
 import Selectors from './Components/Selectors';
 
@@ -18,12 +21,24 @@ const queryParams = {namespace:"production",interval:"5d",step:"1h"}
 
 function App() {
 
+  const {resources} = useSelector(state => state.dashboard.selects);
+
   const podFetch = useGetPodsQuery(queryParams);
   const cpuUsageFetch = useGetCpuUsageQuery(queryParams);
   const cpuAllocationFetch = useGetCpuAllocationQuery(queryParams);
   const memoryUsageFetch = useGetMemoryUsageQuery(queryParams);
   const memoryAllocationFetch = useGetMemoryAllocationQuery(queryParams);
+  const co2EmissionQuery = useGetCO2EmissionQuery(queryParams);
   const savedEmissionFetch = useGetSavedEmissionQuery({interval:queryParams.interval,step:queryParams.step});
+
+  const fetchingMap = {
+    'Active pods': podFetch,
+    'CPU allocation':cpuAllocationFetch,
+    'CPU usage':cpuUsageFetch,
+    'Memory usage':memoryUsageFetch,
+    'Memory allocation':memoryAllocationFetch,
+    'Estimated CO2 emission':co2EmissionQuery
+  }
 
 
   return (
@@ -33,7 +48,7 @@ function App() {
       <Selectors/>
       <Divider/>
         <div className="layout-grid">
-          <Card style={{  gridArea: 'lc' }} title="Estimated CO2 emission"><Co2Emission /></Card>
+        <LineChartCard currentlyShowing={resources.currentlySelected} dataFetching={fetchingMap[resources.currentlySelected]}/>
           <StatComponent
             gridArea="b1"
             title="Saved Emission"
