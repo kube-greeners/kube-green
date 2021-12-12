@@ -6,6 +6,7 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 
 function LineChartCard({ dataFetching, currentlyShowing }) {
+
     return (
         <Card style={{ gridArea: 'lc' }} title={currentlyShowing}>
             {!dataFetching.isFetching && dataFetching.isSuccess ?

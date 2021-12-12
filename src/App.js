@@ -21,7 +21,7 @@ const queryParams = {namespace:"production",interval:"5d",step:"1h"}
 
 function App() {
 
-  const {namespaces,resources} = useSelector(state => state.dashboard.selects);
+  const {resources} = useSelector(state => state.dashboard.selects);
 
   const podFetch = useGetPodsQuery(queryParams);
   const cpuUsageFetch = useGetCpuUsageQuery(queryParams);
@@ -32,15 +32,13 @@ function App() {
   const savedEmissionFetch = useGetSavedEmissionQuery({interval:queryParams.interval,step:queryParams.step});
 
   const fetchingMap = {
-    'Active Pods': podFetch,
+    'Active pods': podFetch,
     'CPU allocation':cpuAllocationFetch,
     'CPU usage':cpuUsageFetch,
     'Memory usage':memoryUsageFetch,
     'Memory allocation':memoryAllocationFetch,
     'Estimated CO2 Emission':co2EmissionQuery
   }
-
-
 
 
   return (
