@@ -31,28 +31,15 @@ function App() {
   const co2EmissionQuery = useGetCO2EmissionQuery(queryParams);
   const savedEmissionFetch = useGetSavedEmissionQuery({interval:queryParams.interval,step:queryParams.step});
 
-  let currentLinecart;
-  switch(resources.currentlySelected) {
-    case 'Active Pods':
-      currentLinecart = <LineChartCard currentlyShowing="Active Pods" dataFetching={podFetch}/>
-      break;
-    case 'CPU allocation':
-      currentLinecart = <LineChartCard currentlyShowing="CPU allocation" dataFetching={cpuAllocationFetch}/>
-      break;
-    case 'CPU usage':
-      currentLinecart = <LineChartCard currentlyShowing="CPU usage" dataFetching={cpuUsageFetch}/>
-      break;
-    case 'Memory usage':
-      currentLinecart = <LineChartCard currentlyShowing="Memory usage" dataFetching={memoryUsageFetch}/>
-      break;
-    case 'Memory allocation':
-      currentLinecart = <LineChartCard currentlyShowing="Memory allocation" dataFetching={memoryAllocationFetch}/>
-      break;
-    case 'Estimated CO2 Emission':
-      currentLinecart = <LineChartCard currentlyShowing="Estimated CO2 Emission" dataFetching={co2EmissionQuery}/>
-      break;
-
+  const fetchingMap = {
+    'Active Pods': podFetch,
+    'CPU allocation':cpuAllocationFetch,
+    'CPU usage':cpuUsageFetch,
+    'Memory usage':memoryUsageFetch,
+    'Memory allocation':memoryAllocationFetch,
+    'Estimated CO2 Emission':co2EmissionQuery
   }
+
 
 
 
@@ -63,7 +50,7 @@ function App() {
       <Selectors/>
       <Divider/>
         <div className="layout-grid">
-          {currentLinecart}
+        <LineChartCard currentlyShowing={resources.currentlySelected} dataFetching={fetchingMap[resources.currentlySelected]}/>
           <StatComponent
             gridArea="b1"
             title="Saved Emission"
