@@ -10,7 +10,8 @@ import {
   useGetCpuAllocationQuery,
   useGetMemoryUsageQuery,
   useGetMemoryAllocationQuery,
-  useGetSavedEmissionQuery
+  useGetSavedEmissionQuery,
+  useGetCO2EmissionQuery
 } from './redux/apiSlice';
 import Selectors from './Components/Selectors';
 
@@ -26,6 +27,7 @@ function App() {
   const cpuAllocationFetch = useGetCpuAllocationQuery(queryParams);
   const memoryUsageFetch = useGetMemoryUsageQuery(queryParams);
   const memoryAllocationFetch = useGetMemoryAllocationQuery(queryParams);
+  const co2EmissionQuery = useGetCO2EmissionQuery(queryParams);
   const savedEmissionFetch = useGetSavedEmissionQuery({interval:queryParams.interval,step:queryParams.step});
 
 
