@@ -56,8 +56,7 @@ function App() {
         title:"Error fetching",
         content: (
           <>
-            {errors.map(e => <p key={e.id}>{e.errMsg}</p>)}
-
+            <p>Something went wrong, please try again later</p>
           </>
         ),
         onOk: () => modalIsOpen.current = false
