@@ -49,7 +49,6 @@ function App() {
   if(allFetchesDone) {
     const errors = Object.values(fetchingMap)
       .filter(f => f.isError)
-      .map(f => ({errMsg:f.error.error,id:f.requestId}))
     if(errors.length > 0 && !modalIsOpen.current) {
       modalIsOpen.current = true
       Modal.error({
