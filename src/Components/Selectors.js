@@ -33,6 +33,10 @@ export default function Selectors() {
 
         
     }
+    function disabledDate(current) {
+        // Can not select days before today and today
+        return current && current > moment().endOf('day');
+      }
 
     const labelStyle = {
         marginBottom:'.5rem',
@@ -66,7 +70,7 @@ export default function Selectors() {
                     <RangePicker
                         defaultValue={[moment(startDate, dateFormat), moment(endDate, dateFormat)]}
                         format={dateFormat}
-                        disabled={[false, true]} //could be removed
+                        disabledDate={disabledDate}
                         onChange={intervalSelected}/>    
                 </Col>
             </Row>
