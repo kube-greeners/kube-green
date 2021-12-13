@@ -33,7 +33,7 @@ function App() {
   const memoryUsageFetch = useGetMemoryUsageQuery(queryParams);
   const memoryAllocationFetch = useGetMemoryAllocationQuery(queryParams);
   const co2EmissionQuery = useGetCO2EmissionQuery(queryParams);
-  const savedEmissionFetch = useGetSavedEmissionQuery({interval:queryParams.interval,step:queryParams.step});
+  const savedEmissionFetch = useGetSavedEmissionQuery(queryParams);
 
   const modalIsOpen = useRef(false)
 

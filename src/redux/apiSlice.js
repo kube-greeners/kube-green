@@ -57,7 +57,7 @@ export const apiSlice = createApi({
       transformResponse : resData => convertData(resData, "Memory Allocation")
     }),
     getSavedEmission: builder.query({
-      query: ({startDate, endDate, step}) => `saved_co2_emission?start=${startDate}&end=${endDate}`,
+      query: ({startDate, endDate,namespace}) => `saved_co2_emission?namespace=${namespace}&start=${startDate}&end=${endDate}`,
       transformResponse: resData => {
         return parseFloat(resData[0].values.pop().pop())
       }
