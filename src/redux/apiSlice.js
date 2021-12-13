@@ -31,33 +31,33 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_BASE_URL }),
   endpoints: (builder) => ({
     getCO2Emission: builder.query({
-      query: ({namespace,interval,step}) => `/co2_emission_with_kube_green?namespace=${namespace}&interval=${interval}&step=${step}`,
+      query: ({namespace, startDate, endDate}) => `/co2_emission_with_kube_green?namespace=${namespace}&start=${startDate}&end=${endDate}`,
       transformResponse: resData => {
         return {historicalData:convertHistoricalData(resData[0].values,"Grams of CO2")}
       }
     }),
     getPods: builder.query({
-      query: ({namespace,interval,step}) => `/all_active_pods?namespace=${namespace}&interval=${interval}&step=${step}`,
+      query: ({namespace, startDate, endDate}) => `/all_active_pods?namespace=${namespace}&start=${startDate}&end=${endDate}`,
       transformResponse : resData => convertData(resData, "Number of pods")
     }),
     getCpuUsage: builder.query({
-      query: ({namespace,interval,step}) => `/cpu_usage?namespace=${namespace}&interval=${interval}&step=${step}`,
+      query: ({namespace, startDate, endDate}) => `/cpu_usage?namespace=${namespace}&start=${startDate}&end=${endDate}`,
       transformResponse : resData => convertData(resData, "CPU Usage")
     }),
     getCpuAllocation: builder.query({
-      query: ({namespace,interval,step}) => `cpu_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
+      query: ({namespace, startDate, endDate}) => `cpu_allocation?namespace=${namespace}&start=${startDate}&end=${endDate}`,
       transformResponse : resData => convertData(resData, "CPU Allocation")
     }),
     getMemoryUsage: builder.query({
-      query: ({namespace,interval,step}) => `/memory_usage?namespace=${namespace}&interval=${interval}&step=${step}`,
+      query: ({namespace, startDate, endDate}) => `/memory_usage?namespace=${namespace}&start=${startDate}&end=${endDate}`,
       transformResponse : resData => convertData(resData, "Memory Usage")
     }),
     getMemoryAllocation: builder.query({
-      query: ({namespace,interval,step}) => `/memory_allocation?namespace=${namespace}&interval=${interval}&step=${step}`,
+      query: ({namespace, startDate, endDate}) => `/memory_allocation?namespace=${namespace}&start=${startDate}&end=${endDate}`,
       transformResponse : resData => convertData(resData, "Memory Allocation")
     }),
     getSavedEmission: builder.query({
-      query: ({interval,step}) => `saved_co2_emission?interval=${interval}}&step=${step}`,
+      query: ({startDate, endDate, step}) => `saved_co2_emission?start=${startDate}&end=${endDate}`,
       transformResponse: resData => {
         return parseFloat(resData[0].values.pop().pop())
       }

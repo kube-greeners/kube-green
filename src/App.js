@@ -17,11 +17,14 @@ import {
 import Selectors from './Components/Selectors';
 
 
-const queryParams = {namespace:"production",interval:"5d",step:"1h"}
 
 function App() {
 
   const {resources} = useSelector(state => state.dashboard.selects);
+  const {startDateUnix, endDateUnix} = useSelector(state => state.dashboard.interval)
+
+  const queryParams = {namespace:"production", startDate: startDateUnix, endDate: endDateUnix}
+
 
   const podFetch = useGetPodsQuery(queryParams);
   const cpuUsageFetch = useGetCpuUsageQuery(queryParams);
