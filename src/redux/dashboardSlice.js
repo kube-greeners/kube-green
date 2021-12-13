@@ -45,7 +45,8 @@ export const dashboardSlice = createSlice({
       state.selects.resources.currentlySelected = action.payload
     },
     setCurrentInterval: (state, action) => {
-      state.interval.startDateUnix = Number(new Date(action.payload[0]))
+      const [day,month,year] = action.payload[0].split("/")
+      state.interval.startDateUnix = Number(new Date(year,month-1,day))
      // state.interval.endDateUnix = Number(new Date(action.payload[1]))
     }
   },
