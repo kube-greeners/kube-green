@@ -19,10 +19,8 @@ const initialState = {
     resources: {
       currentlySelected: 'Estimated CO2 emission',
       data: [
-        'CPU allocation',
         'CPU usage',
         'Memory usage',
-        'Memory allocation',
         'Active pods',
         'Estimated CO2 emission',
       ]
