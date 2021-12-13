@@ -21,10 +21,10 @@ import { useRef } from 'react';
 
 function App() {
 
-  const {resources} = useSelector(state => state.dashboard.selects);
+  const {resources, namespaces} = useSelector(state => state.dashboard.selects);
   const {startDateUnix, endDateUnix} = useSelector(state => state.dashboard.interval)
 
-  const queryParams = {namespace:"production", startDate: startDateUnix, endDate: endDateUnix}
+  const queryParams = {namespace: namespaces.currentlySelected, startDate: startDateUnix, endDate: endDateUnix}
 
 
   const podFetch = useGetPodsQuery(queryParams);
