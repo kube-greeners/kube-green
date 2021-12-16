@@ -41,6 +41,7 @@ type SleepInfoReconciler struct {
 	Log    logr.Logger
 	Scheme *runtime.Scheme
 	Clock
+	resource.PrometheusMetrics
 }
 
 type realClock struct{}
@@ -114,6 +115,7 @@ func (r *SleepInfoReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 		SleepInfo:        sleepInfo,
 		Log:              log,
 		FieldManagerName: fieldManagerName,
+		Metrics:          r.PrometheusMetrics,
 	}, req.Namespace, sleepInfoData)
 	if err != nil {
 		log.Error(err, "fails to get resources")

@@ -10,7 +10,7 @@ metadata:
 spec:
   endpoints:
     - path: /metrics
-      port: https
+      port: 9100
   selector:
     matchLabels:
       control-plane: controller-manager

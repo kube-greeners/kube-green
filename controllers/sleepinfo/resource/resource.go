@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/prometheus/client_golang/prometheus"
 	"strings"
 
 	kubegreenv1alpha1 "github.com/kube-green/kube-green/api/v1alpha1"
@@ -21,11 +22,15 @@ type Resource interface {
 	GetOriginalInfoToSave() ([]byte, error)
 }
 
+type PrometheusMetrics struct {
+	SleptReplicaCount prometheus.GaugeVec
+}
 type ResourceClient struct {
 	Client           client.Client
 	SleepInfo        *kubegreenv1alpha1.SleepInfo
 	Log              logr.Logger
 	FieldManagerName string
+	Metrics          PrometheusMetrics
 }
 
 func (r ResourceClient) Patch(ctx context.Context, oldObj, newObj client.Object) error {

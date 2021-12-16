@@ -6,6 +6,12 @@ package main
 
 import (
 	"flag"
+	"github.com/kube-green/kube-green/controllers/sleepinfo/resource"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"net/http"
+
 	"os"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -65,11 +71,22 @@ func main() {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
 	}
-
+	var prometheusMetrics = resource.PrometheusMetrics{
+		SleptReplicaCount: *promauto.NewGaugeVec(prometheus.GaugeOpts{
+			Name:      "replicas_sleeping",
+			Namespace: "kube_green",
+			Help:      "Amount of replicas that kube-green has shut down as a result of namespace turn off",
+		}, []string{
+			"name",
+			"namespace",
+			"cluster",
+		}),
+	}
 	if err = (&sleepinfocontroller.SleepInfoReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("SleepInfo"),
-		Scheme: mgr.GetScheme(),
+		Client:            mgr.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("SleepInfo"),
+		Scheme:            mgr.GetScheme(),
+		PrometheusMetrics: prometheusMetrics,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SleepInfo")
 		os.Exit(1)
@@ -92,6 +109,11 @@ func main() {
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
+		os.Exit(1)
+	}
+	http.Handle("/metrics", promhttp.Handler())
+	if err := http.ListenAndServe(":9100", nil); err != nil {
+		setupLog.Error(err, "problem starting prometheus")
 		os.Exit(1)
 	}
 }

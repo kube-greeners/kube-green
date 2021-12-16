@@ -15,12 +15,14 @@ type deployments struct {
 	resource.ResourceClient
 	data             []appsv1.Deployment
 	OriginalReplicas map[string]int32
+	metrics          resource.PrometheusMetrics
 }
 
 func NewResource(ctx context.Context, res resource.ResourceClient, namespace string, originalReplicas map[string]int32) (deployments, error) {
 	d := deployments{
 		ResourceClient:   res,
 		OriginalReplicas: originalReplicas,
+		metrics:          res.Metrics,
 	}
 	if err := d.fetch(ctx, namespace); err != nil {
 		return deployments{}, err
@@ -32,7 +34,6 @@ func NewResource(ctx context.Context, res resource.ResourceClient, namespace str
 func (d deployments) HasResource() bool {
 	return len(d.data) > 0
 }
-
 func (d deployments) Sleep(ctx context.Context) error {
 	for _, deployment := range d.data {
 		deploymentReplicas := *deployment.Spec.Replicas
@@ -45,6 +46,11 @@ func (d deployments) Sleep(ctx context.Context) error {
 		if err := d.Patch(ctx, &deployment, newDeploy); err != nil {
 			return err
 		}
+		d.metrics.SleptReplicaCount.With(map[string]string{
+			"name":      deployment.Name,
+			"namespace": deployment.Namespace,
+			"cluster":   deployment.ClusterName,
+		}).Add(float64(deploymentReplicas))
 	}
 	return nil
 }
@@ -69,6 +75,12 @@ func (d deployments) WakeUp(ctx context.Context) error {
 		if err := d.Patch(ctx, &deployment, newDeploy); err != nil {
 			return err
 		}
+		d.metrics.SleptReplicaCount.With(map[string]string{
+			"name":      deployment.Name,
+			"namespace": deployment.Namespace,
+			"cluster":   deployment.ClusterName,
+		}).Sub(float64(replica))
+
 	}
 	return nil
 }
