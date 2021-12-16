@@ -25,6 +25,13 @@ function convertData(resData,xAxisName) {
   });
 }
 
+//Add namespace to query parameters if it is present, otherwise don't
+function createQueryparams(ns,sd,ed) {
+  return ns ? 
+    `?namespace=${ns}&start=${sd}&end=${ed}`:
+    `?start=${sd}&end=${ed}`
+}
+
 
 export const apiSlice = createApi({
   reducerPath: 'api',
