@@ -9,7 +9,6 @@ import (
 	"github.com/kube-green/kube-green/controllers/sleepinfo/resource"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"os"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -25,6 +24,7 @@ import (
 
 	kubegreencomv1alpha1 "github.com/kube-green/kube-green/api/v1alpha1"
 	sleepinfocontroller "github.com/kube-green/kube-green/controllers/sleepinfo"
+	"sigs.k8s.io/controller-runtime/pkg/metrics"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -80,6 +80,8 @@ func main() {
 			"cluster",
 		}),
 	}
+	metrics.Registry.MustRegister(prometheusMetrics.SleptReplicaCount)
+
 	if err = (&sleepinfocontroller.SleepInfoReconciler{
 		Client:            mgr.GetClient(),
 		Log:               ctrl.Log.WithName("controllers").WithName("SleepInfo"),
@@ -101,11 +103,6 @@ func main() {
 	}
 	if err := mgr.AddReadyzCheck("check", healthz.Ping); err != nil {
 		setupLog.Error(err, "unable to set up ready check")
-		os.Exit(1)
-	}
-
-	if err := mgr.AddMetricsExtraHandler("/kube-green", promhttp.Handler()); err != nil {
-		setupLog.Error(err, "problem starting prometheus")
 		os.Exit(1)
 	}
 
