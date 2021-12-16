@@ -10,7 +10,9 @@ metadata:
 spec:
   endpoints:
     - path: /metrics
-      port: 9100
+      port: https
+  namespaceSelector:
+    any: true # Too permissive :/
   selector:
     matchLabels:
       control-plane: controller-manager

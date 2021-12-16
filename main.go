@@ -112,7 +112,7 @@ func main() {
 		os.Exit(1)
 	}
 	http.Handle("/metrics", promhttp.Handler())
-	if err := http.ListenAndServe(":9100", nil); err != nil {
+	if err := http.ListenAndServe(":8443", nil); err != nil {
 		setupLog.Error(err, "problem starting prometheus")
 		os.Exit(1)
 	}
