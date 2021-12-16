@@ -10,8 +10,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"net/http"
-
 	"os"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -106,14 +104,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err := mgr.AddMetricsExtraHandler("/kube-green", promhttp.Handler()); err != nil {
+		setupLog.Error(err, "problem starting prometheus")
+		os.Exit(1)
+	}
+
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
-		os.Exit(1)
-	}
-	http.Handle("/metrics", promhttp.Handler())
-	if err := http.ListenAndServe(":8443", nil); err != nil {
-		setupLog.Error(err, "problem starting prometheus")
 		os.Exit(1)
 	}
 }
