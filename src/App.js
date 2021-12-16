@@ -24,7 +24,11 @@ function App() {
   const {resources, namespaces} = useSelector(state => state.dashboard.selects);
   const {startDateUnix, endDateUnix} = useSelector(state => state.dashboard.interval)
 
-  const queryParams = {namespace: namespaces.currentlySelected, startDate: startDateUnix, endDate: endDateUnix}
+  const queryParams = {
+    namespace: namespaces.currentlySelected === 'All namespaces' ? null : namespaces.currentlySelected, 
+    startDate: startDateUnix, 
+    endDate: endDateUnix
+  }
 
 
   const podFetch = useGetPodsQuery(queryParams);
